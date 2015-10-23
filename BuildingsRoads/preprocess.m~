@@ -7,25 +7,22 @@ function [patches_preproc, images] = preprocess(params, range)
     end
     
     d = 2;  
-    sigma = [3 0.1];
-    images= [];
+    sigma = [3 0.1];  
+
     Vs = [];
     for i=1:range
         currentfilename = imagefiles(i).name;
         currentimage = imread(strcat(params.scansdir, currentfilename));
         
-        % Bilateral Filtering, noise removal with edges preserved
-        currentimage = double(currentimage)/255;
+        % Bilateral Filtering, noise removal but edge preser
         currentimage = BilateralFilt2(double(currentimage), d, sigma);
-        images= [images; currentimage;];
-        %imshow(currentimage)
-        %pause
         
         % Gaussian Pyramid of the image, saved in a vector
         % V{i} is a cell array each of which is a scaled image in the pyramid
         pyr = pyramid(currentimage, params);
         %save pyramidTest.mat pyr 
         Vs = [Vs; pyr];
+        
         %imshow(pyr{1});
         %pause
         clear currentimage;
@@ -38,4 +35,6 @@ function [patches_preproc, images] = preprocess(params, range)
     
     % Apply ZCA Whitening
     patches_preproc= zcawhitening(patches, params);
+   
+    images= [];
 end

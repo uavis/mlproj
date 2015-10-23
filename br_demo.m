@@ -2,7 +2,7 @@
 %---------------------------------------
 
 %% Clear up the workspace
-clear; close all;
+clear; close all; clc;
 
 %% Set hyperparameters and data location
 set_params_buildings;
