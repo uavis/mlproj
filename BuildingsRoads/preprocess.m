@@ -15,9 +15,9 @@ function [patches_preproc, images] = preprocess(params, range)
         currentimage = imread(strcat(params.scansdir, currentfilename));
         
         % Bilateral Filtering, noise removal with edges preserved
-        currentimage = double(currentimage)/255;
-        currentimage = BilateralFilt2(double(currentimage), d, sigma);
-        images= [images; currentimage;];
+        %currentimage = double(currentimage)/255;
+        %currentimage = BilateralFilt2(double(currentimage), d, sigma);
+        %images= [images; currentimage;];
         %imshow(currentimage)
         %pause
         
