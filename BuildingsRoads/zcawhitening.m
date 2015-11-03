@@ -1,7 +1,7 @@
 function imgZCAwhite= zcawhitening(patches, params)
     disp('ZCA Whitening...');
 
-    imgZCAwhite= zeros(size(patches, 1), params.rfSize(1), params.rfSize(2));
+    imgZCAwhite= zeros(size(patches, 1), params.rfSize(1)* params.rfSize(2));
     for i=1: size(patches, 1)
         img= patches(i, :);
         %img= rgb2gray(img);
@@ -16,7 +16,7 @@ function imgZCAwhite= zcawhitening(patches, params)
 
         %imgPCAwhite = diag(1./sqrt(diag(S) + eps)) * U' * img;
         imgZCA = U * diag(1./sqrt(diag(S) + 0.1 )) * U' * img;
-        imgZCAwhite(i, :, :)= imgZCA;
+        imgZCAwhite(i, :)= reshape(imgZCA,1,size(imgZCA,1)*size(imgZCA,2));
         %figure(1), imshow(img);
         %figure(2), imshow(imgZCA);
         %pause

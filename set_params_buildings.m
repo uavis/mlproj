@@ -29,14 +29,18 @@ params.regSize = [params.upsample(1) + params.rfSize(1) - 1 params.upsample(2) +
 params.ratio = 15; % Ask Vincent about that parameter
 
 % Number of patches to train dictionary
-params.npatches = 100000;
+params.npatches = 10;
 
 % Number of features per scale. Total # of features: nfeats * numscales
 params.nfeats = 32;
 
-%%%%%%%%%%%%%%%%%%%
 
-basedir = '/home/mennatullah/Datasets/BuildingDetectionML/training/';
-params.scansdir = strcat(basedir, 'input/');
-params.annotdir = strcat(basedir, 'target/');
+%Train data directory
+basedir = '/usr/data/BuildingDetectionML/';
+params.scansdir = strcat(basedir, 'training/input/');
+params.annotdir = strcat(basedir, 'training/target/');
+
+%Test data directory
+params.testdatadir = strcat(basedir, 'TestData/');
+params.testgrounddir = strcat(basedir, 'TestDataGroundTruht/');
 

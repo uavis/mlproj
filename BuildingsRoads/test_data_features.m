@@ -1,15 +1,8 @@
-function [D,X,labels] = run_buildings(params)
-% Function for learning features and extracting labels
-    
-    %% Load images, annotations and pre-process
-    %patches: number_of_patches by patch_width*patch_height. Preporcessed.
-    disp('Loading and pre-processing data...')
-    [patches, images, labels] = preprocess(params, params.scansdir, params.annotdir, 2);
-    
-    %% Train dictionary
-    %To change the method for dictionary learning, please see inside
-    %dictionary function. By default, uses omp-1.
-    D = dictionary(patches, params);
+%%Reads data in the test directory, extract its features and lables for
+%%evaluation.
+function [X, labels] = test_data_features(D, params)
+    % Prepocessing
+    [patches, images, labels] = preprocess(params, params.testdatadir, params.testgrounddir, 2);
     
     %Learning features for each pixel of each picture in the pyramid
     % Compute first module feature maps on slices with annotations
@@ -27,5 +20,4 @@ function [D,X,labels] = run_buildings(params)
         X = [X; reshape(L{i},size(L{i},1)*size(L{i},2),params.numscales*params.nfeats)];
     end
     labels = reshape(labels, size(labels,1)*size(labels,2)*size(labels,3),1);
-    
 end

@@ -1,6 +1,7 @@
-function [patches_preproc, images] = preprocess(params, range)
+function [patches_preproc, images, labels] = preprocess(params, imagedir, labeldir,range)
     %%Loading Images
-    imagefiles = dir(strcat(params.scansdir,'*.tiff'));      
+    imagefiles = dir(strcat(imagedir,'*.tiff'));     
+    labelfiles = dir(strcat(labeldir,'*.tif'));
     nfiles = length(imagefiles);    % Number of files found
     if range==0
         range= nfiles;
@@ -10,9 +11,14 @@ function [patches_preproc, images] = preprocess(params, range)
     sigma = [3 0.1];
     images= [];
     Vs = [];
+    labels = [];
     for i=1:range
         currentfilename = imagefiles(i).name;
-        currentimage = imread(strcat(params.scansdir, currentfilename));
+        currentlabelname = labelfiles(i).name;
+        currentlabel = imread(strcat(labeldir, currentlabelname));
+        
+        labels(:,:,i) =double (currentlabel(:,:,1) > 0);
+        currentimage = rgb2gray(imread(strcat(imagedir, currentfilename)));
         
         % Bilateral Filtering, noise removal with edges preserved
         %currentimage = double(currentimage)/255;
@@ -34,8 +40,10 @@ function [patches_preproc, images] = preprocess(params, range)
     
     % Extract Patches from the Gaussian Pyramid
     patches = extract_patches(Vs, params);
+    images = Vs;
     clear Vs;
     
     % Apply ZCA Whitening
     patches_preproc= zcawhitening(patches, params);
+    
 end
