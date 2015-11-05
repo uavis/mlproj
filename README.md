@@ -79,3 +79,6 @@ This package reuses the following 3rd party code:
 
     - Bruno Luong's C implementation of min/max selection algorithm (partial quicksort)
       http://www.mathworks.com/matlabcentral/fileexchange/23576-min-max-selection
+
+    - Chih-Chung Chang and Chih-Jen Lin, LIBSVM
+      http://www.csie.ntu.edu.tw/~cjlin/libsvm
