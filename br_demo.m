@@ -15,10 +15,8 @@ disp ('extracting features of the test data');
 [X_test, labels_test] = test_data_features(D, params);
 %%Training the Classifier
 disp('training the svm classifier');
-model = libsvmtrain( labels_train, X_train);
+classification (labels_train, X_train, labels_test, X_test, params);
 
-%% Testing the model on the test data.
-[predict_label, accuracy] = libsvmpredict(labels_test, X_test, model);
 %% Visualize the dictionary
 % figure(2);
 % visualize_dictionary(D);

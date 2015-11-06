@@ -29,11 +29,13 @@ params.regSize = [params.upsample(1) + params.rfSize(1) - 1 params.upsample(2) +
 params.ratio = 15; % Ask Vincent about that parameter
 
 % Number of patches to train dictionary
-params.npatches = 10;
+params.npatches = 100000;
 
 % Number of features per scale. Total # of features: nfeats * numscales
 params.nfeats = 32;
 
+%Type of the classifier 
+params.classifier = 'logistic_reg';
 
 %Train data directory
 basedir = '/usr/data/BuildingDetectionML/';
