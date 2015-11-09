@@ -7,7 +7,7 @@ function extract_features_modalities(images, D, params)
         L_modality = extract_features_buildings(images_modality, D_modality, params);
 
         if j==1
-            L= L_modality;
+           L= L_modality;
         else
             L= addCells(L, L_modality);
         end
