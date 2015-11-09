@@ -1,5 +1,5 @@
 function imgZCAwhite= zcawhitening(patches, params)
-    disp('ZCA Whitening...');
+%    disp('ZCA Whitening...');
     img= im2double(patches);
     
     cov = img' * img / size(img, 2);

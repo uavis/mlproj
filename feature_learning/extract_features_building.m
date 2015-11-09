@@ -37,7 +37,7 @@ function L = extract_features_building(X, D, params)
             
             % Extract subfeatures
             for j = 1:size(subregions, 1)     
-                features(:, j) = extract_subfeatures(subregions(j,:), D, im, params);
+                features(:, j) = extract_subfeatures_building(subregions(j,:), D, im, params);
             end
 
             % Reshape into spatial region

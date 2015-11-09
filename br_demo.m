@@ -15,7 +15,7 @@ disp ('extracting features of the test data');
 [X_test, labels_test] = test_data_features(D, params);
 %%Training the Classifier
 disp('training the svm classifier');
-classification (labels_train, X_train, labels_test, X_test, params);
+[model, prediction] = classification (labels_train, X_train, labels_test, X_test, params);
 
 %% Visualize the dictionary
 % figure(2);
