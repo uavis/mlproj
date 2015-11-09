@@ -10,7 +10,10 @@ function [patches_preproc, images, labels] = preprocess(params, imagedir, labeld
     d = 2;  
     sigma = [3 0.1];
     images= [];
-    Vs = [];
+    VsR = [];
+    VsG = [];
+    VsB = [];
+    Vs= [];
     labels = [];
     for i=1:range
         currentfilename = imagefiles(i).name;
@@ -18,20 +21,23 @@ function [patches_preproc, images, labels] = preprocess(params, imagedir, labeld
         currentlabel = imread(strcat(labeldir, currentlabelname));
         
         labels(:,:,i) =double (currentlabel(:,:,1) > 0);
-        currentimage = rgb2gray(imread(strcat(imagedir, currentfilename)));
-        
-        % Bilateral Filtering, noise removal with edges preserved
-        %currentimage = double(currentimage)/255;
-        %currentimage = BilateralFilt2(double(currentimage), d, sigma);
-        %images= [images; currentimage;];
-        %imshow(currentimage)
-        %pause
+        if(params.rfSize(1)==1)
+            currentimage = rgb2gray(imread(strcat(imagedir, currentfilename)));
+        else
+            currentimage = imread(strcat(imagedir, currentfilename));
+        end
         
         % Gaussian Pyramid of the image, saved in a vector
         % V{i} is a cell array each of which is a scaled image in the pyramid
         pyr = pyramid(currentimage, params);
-        %save pyramidTest.mat pyr 
-        Vs = [Vs; pyr];
+        Vs= [Vs; pyr]; 
+        
+        if(params.rfSize(1)>1)
+            VsR = [VsR; pyr(1:6, :)];
+            VsG = [VsG; pyr(7:12, :)];
+            VsB = [VsB; pyr(13:end, :)];
+        end
+        
         %imshow(pyr{1});
         %pause
         clear currentimage;
@@ -39,8 +45,12 @@ function [patches_preproc, images, labels] = preprocess(params, imagedir, labeld
     end
     
     % Extract Patches from the Gaussian Pyramid
-    patches = extract_patches(Vs, params);
-    images = Vs;
+    patches = extract_patches_building(Vs, params);
+    if(params.rfSize(1)>1)
+        images = [VsR; VsG; VsB];
+    else
+        images= Vs;
+    end
     clear Vs;
     
     % Apply ZCA Whitening

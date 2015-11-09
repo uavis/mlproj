@@ -6,13 +6,21 @@ function [X, labels] = test_data_features(D, params)
     
     %Learning features for each pixel of each picture in the pyramid
     % Compute first module feature maps on slices with annotations
-    disp('Extracting first module feature maps...')
-    L = extract_features_building(images, D, params);
+
+    if(params.rfSize(3)==1)
+        % This part is for GrayScale Images
+        disp('Extracting first module feature maps...')
+        L = extract_features_building(images, D, params);
+    else
+        % This part is for RGB Images
+        disp('Extracting first module feature maps...')
+        L= extract_features_modalities(images, D, params);
+    end
     
     % Upsample all feature maps
     disp('Upsampling feature maps...')
     L = upsample(L, params.numscales, params.upsample);
-    
+
     % Compute features for classification
     disp('Computing pixel-level features...')
     X = [];
