@@ -96,6 +96,11 @@ subplot(1,3,2); imshow(seg_gt);title('Ground truth');
 seg_out = imoverlay(uint8(V(:,:,slice_index)), preds>0.5, [255/255 0/255 221/255]);
 subplot(1,3,3);imshow(seg_out);title('Segmentation result');
 
-%% Visualize the dictionary
+%% Visualization to show the overlapped region of labels and predictions
 figure(2);
+visualize_labels_pred(V, A, preds, slice_index);
+
+
+%% Visualize the dictionary
+figure(3);
 visualize_dictionary(D);
