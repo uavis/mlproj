@@ -7,7 +7,7 @@ function [X, labels] = test_data_features(D, params)
     %Learning features for each pixel of each picture in the pyramid
     % Compute first module feature maps on slices with annotations
     disp('Extracting first module feature maps...')
-    L = extract_features(images, D, params);
+    L = extract_features_building(images, D, params);
     
     % Upsample all feature maps
     disp('Upsampling feature maps...')
