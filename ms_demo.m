@@ -98,7 +98,7 @@ subplot(1,3,3);imshow(seg_out);title('Segmentation result');
 
 %% Visualization to show the overlapped region of labels and predictions
 figure(2);
-visualize_labels_pred(V, A, preds, slice_index);
+visualize_labels_pred(V, A, preds, volume_index, slice_index);
 
 
 %% Visualize the dictionary
