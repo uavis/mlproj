@@ -1,4 +1,4 @@
-function [] = visualize_labels_pred(V, gt, preds, slice_index)
+function visualize_labels_pred(V, gt, preds, vol_index, slice_index)
 
 I = V(:,:,slice_index);
 imshow(I,[])
@@ -22,7 +22,8 @@ for i=1:length(B)
     plot(ground_truth(:,1), ground_truth(:,2), 'r');
 end
 
-
+legend([h1 h3],{'Ground Truth','Prediction'});
+title(sprintf('Segmentation Result on volume %d, slice %d',vol_index, slice_index));
 hold off
 
 end
