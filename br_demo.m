@@ -36,7 +36,10 @@ end
 
 %% Training the Classifier
 disp('training the svm classifier');
-classification (labels_train, X_train, labels_test, X_test, params);
+[model, prediction]=classification (labels_train, X_train, labels_test, X_test, params);
+save results.mat prediction;
+p = prediction(:, 2)> prediction(:, 1);
+acc= length(find(p==labels_test))/length(p)
 
 %% Visualize the dictionary
 % figure(2);
