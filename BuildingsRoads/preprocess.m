@@ -21,17 +21,22 @@ function [patches_preproc, images, labels] = preprocess(params, imagedir, labeld
         currentlabel = imread(strcat(labeldir, currentlabelname));
         
         labels(:,:,i) =double (currentlabel(:,:,1) > 0);
-        %currentimage = rgb2gray(imread(strcat(imagedir, currentfilename)));
-        currentimage = imread(strcat(imagedir, currentfilename));
+        if(params.rfSize(1)==1)
+            currentimage = rgb2gray(imread(strcat(imagedir, currentfilename)));
+        else
+            currentimage = imread(strcat(imagedir, currentfilename));
+        end
         
         % Gaussian Pyramid of the image, saved in a vector
         % V{i} is a cell array each of which is a scaled image in the pyramid
         pyr = pyramid(currentimage, params);
-        %save pyramidTest.mat pyr 
-        Vs= [Vs; pyr];
-        VsR = [VsR; pyr(1:6, :)];
-        VsG = [VsG; pyr(7:12, :)];
-        VsB = [VsB; pyr(13:end, :)];
+        Vs= [Vs; pyr]; 
+        
+        if(params.rfSize(1)>1)
+            VsR = [VsR; pyr(1:6, :)];
+            VsG = [VsG; pyr(7:12, :)];
+            VsB = [VsB; pyr(13:end, :)];
+        end
         
         %imshow(pyr{1});
         %pause
@@ -41,7 +46,11 @@ function [patches_preproc, images, labels] = preprocess(params, imagedir, labeld
     
     % Extract Patches from the Gaussian Pyramid
     patches = extract_patches_building(Vs, params);
-    images = [VsR; VsG; VsB];
+    if(params.rfSize(1)>1)
+        images = [VsR; VsG; VsB];
+    else
+        images= Vs;
+    end
     clear Vs;
     
     % Apply ZCA Whitening

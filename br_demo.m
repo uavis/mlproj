@@ -4,22 +4,12 @@
 %% Clear up the workspace
 clear; close all; clc;
 
-%% Set hyperparameters and data location
-set_params_buildings;
-
 if exist ('data.mat', 'file')~=2
     %% Set hyperparameters and data location
     set_params_buildings;
 
     %% Run the code for building and road datasets preprocessing
     [D, X_train, labels_train] = run_buildings(params);
-
-    %%  Visualizing Dictionary for testing
-    for i=1:5
-        t= D.codes(i, :);
-        img= reshape(t, params.rfSize(1), params.rfSize(2), params.rfSize(3));
-        figure, imshow(img);
-    end
 
     %% Extractig Features for the test dataset
     disp ('extracting features of the test data');
@@ -36,11 +26,11 @@ end
 
 %% Training the Classifier
 disp('training the svm classifier');
+%load data.mat
+%load results.mat
 [model, prediction]=classification (labels_train, X_train, labels_test, X_test, params);
 save results.mat prediction;
-p = prediction(:, 2)> prediction(:, 1);
-acc= length(find(p==labels_test))/length(p)
+temp_visualize_results(prediction, labels_test);
 
 %% Visualize the dictionary
-% figure(2);
-% visualize_dictionary(D);
+visualize_dictionary_modalities(D, params)

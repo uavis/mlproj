@@ -6,20 +6,14 @@ function [X, labels] = test_data_features(D, params)
     
     %Learning features for each pixel of each picture in the pyramid
     % Compute first module feature maps on slices with annotations
-    %disp('Extracting first module feature maps...')
-    %L = extract_features(images, D, params);
-     nimages= size(images, 1)/(params.numscales*3);
-     for j=1:params.rfSize(3)
-        D_modality.codes= D.codes(:, params.rfSize(1)*params.rfSize(2)*(j-1)+1 : params.rfSize(1)*params.rfSize(2)*j);
-        D_modality.mean= D.mean(:, params.rfSize(1)*params.rfSize(2)*(j-1)+1 : params.rfSize(1)*params.rfSize(2)*j);
-        images_modality= images(nimages*params.numscales*(j-1)+1:nimages*j*params.numscales, :);
-        L_modality = extract_features(images_modality, D_modality, params);
-
-        if j==1
-            L= L_modality;
-        else
-            L= addCells(L, L_modality);
-        end
+    if(params.rfSize(3)==1)
+        % This part is for GrayScale Images
+        disp('Extracting first module feature maps...')
+        L = extract_features(images, D, params);
+    else
+        % This part is for RGB Images
+        disp('Extracting first module feature maps...')
+        L= extract_features_modalities(images, D, params);
     end
     
     % Upsample all feature maps

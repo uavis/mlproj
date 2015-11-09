@@ -15,21 +15,22 @@ function patches = extract_patches(V, params)
     disp('Extracting patches...');
     
     for i=1:npatches
+        if(params.rfSize(3)==1)
+            patch = double(V{mod(i-1,length(V))+1}); % a scaled image in the pyramid
+            patch = squeeze(patch); % remove sington dimensions
+        else
+            patchR = double(V{mod(i-1,length(V))+1}); % a scaled image in the pyramid
+            patchR = squeeze(patchR); % remove sington dimensions
 
-        patchR = double(V{mod(i-1,length(V))+1}); % a scaled image in the pyramid
-        patchR = squeeze(patchR); % remove sington dimensions
-        
-        patchG = double(V{mod(i+6-1,length(V))+1}); % a scaled image in the pyramid
-        patchG = squeeze(patchG); % remove sington dimensions
-        
-        patchB = double(V{mod(i+12-1,length(V))+1}); % a scaled image in the pyramid
-        patchB = squeeze(patchB); % remove sington dimensions
-        
-        patch= cat(3, patchR, patchG, patchB);
-%         figure, imshow(uint8(patchR));
-%         figure, imshow(uint8(patchG));
-%         figure, imshow(uint8(patchB));
-         %figure, imshow(uint8(patch));
+            patchG = double(V{mod(i+6-1,length(V))+1}); % a scaled image in the pyramid
+            patchG = squeeze(patchG); % remove sington dimensions
+
+            patchB = double(V{mod(i+12-1,length(V))+1}); % a scaled image in the pyramid
+            patchB = squeeze(patchB); % remove sington dimensions
+
+            patch= cat(3, patchR, patchG, patchB);
+        end
+        %figure, imshow(uint8(patch));
         [nrows, ncols, nmaps] = size(patch);
 
         if (mod(i,10000) == 0) fprintf('Extracting patch: %d / %d\n', i, npatches); end
@@ -43,6 +44,7 @@ function patches = extract_patches(V, params)
         end
         patches(i,:) = patch(:)';
     end
+    
     save rgbPatches.mat patches
     disp('Contrast normalization...');
     % +10 offset was added to the variance to avoid dividing by zero and also supressing noise
