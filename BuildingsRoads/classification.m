@@ -9,7 +9,7 @@ function [model, prediction] = classification (labels_train, X_train, labels_tes
         [predict_label, accuracy] = libsvmpredict(labels_test, X_test, model);
      elseif strcmp(params.classifier, 'rf')
         tic
-        model= TreeBagger(10, X_train, labels_train);
+        model= TreeBagger(50, X_train, labels_train);
         prediction = predict(model,X_test);
         toc
     end

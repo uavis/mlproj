@@ -35,7 +35,7 @@ params.npatches = 100000;
 params.nfeats = 32;
 
 %Type of the classifier 
-params.classifier = 'logistic_reg';
+params.classifier = 'rf';
 
 %Train data directory
 basedir = '/usr/data/BuildingDetectionML/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
