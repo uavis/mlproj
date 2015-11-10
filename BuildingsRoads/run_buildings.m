@@ -27,7 +27,7 @@ function [D,X,labels] = run_buildings(params)
         L= extract_features_modalities(images, D, params);
     end
     
-    Upsample all feature maps
+    %Upsample all feature maps
     disp('Upsampling feature maps...')
     L = upsample(L, params.numscales, params.upsample);
 
