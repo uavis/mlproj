@@ -20,7 +20,7 @@ function [D,X,labels] = run_buildings(params)
     if(params.rfSize(3)==1)
         % This part is for GrayScale Images
         disp('Extracting first module feature maps...')
-        L = extract_features_buildings(images, D, params);
+        L = extract_features_building(images, D, params);
     else
         % This part is for RGB Images
         disp('Extracting first module feature maps...')

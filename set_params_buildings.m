@@ -38,7 +38,7 @@ params.nfeats = 32;
 params.classifier = 'logistic_reg';
 
 %Train data directory
-basedir = '/home/mennatullah/Datasets/BuildingDetectionML/';%'/usr/data/BuildingDetectionML/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
+basedir = '/usr/data/BuildingDetectionML/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
 params.scansdir = strcat(basedir, 'training/input/');
 params.annotdir = strcat(basedir, 'training/target/');
 

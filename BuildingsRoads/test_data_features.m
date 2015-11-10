@@ -9,7 +9,7 @@ function [X, labels] = test_data_features(D, params)
     if(params.rfSize(3)==1)
         % This part is for GrayScale Images
         disp('Extracting first module feature maps...')
-        L = extract_features(images, D, params);
+        L = extract_features_building(images, D, params);
     else
         % This part is for RGB Images
         disp('Extracting first module feature maps...')
