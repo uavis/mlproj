@@ -34,6 +34,9 @@ params.npatches = 100000;
 % Number of features per scale. Total # of features: nfeats * numscales
 params.nfeats = 32;
 
+%Threshold alpha for soft thresholding in encoding
+params.alpha = 0.01;
+
 %Type of the classifier 
 params.classifier = 'logistic_reg';
 
