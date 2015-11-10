@@ -9,7 +9,11 @@ function [D,X,labels] = run_buildings(params)
     %% Train dictionary
     %To change the method for dictionary learning, please see inside
     %dictionary function. By default, uses omp-1.
-    D = dictionary(patches, params);
+    if (strcmp(params.dictionary_type, 'KSVD'))
+        D = dictionary_ksvd(patches, params);
+    else
+        D = dictionary(patches, params);
+    end
     
     %Learning features for each pixel of each picture in the pyramid
     %Compute first module feature maps on slices with annotations
@@ -23,7 +27,7 @@ function [D,X,labels] = run_buildings(params)
         L= extract_features_modalities(images, D, params);
     end
     
-    % Upsample all feature maps
+    Upsample all feature maps
     disp('Upsampling feature maps...')
     L = upsample(L, params.numscales, params.upsample);
 
@@ -35,6 +39,6 @@ function [D,X,labels] = run_buildings(params)
     end
     labels = reshape(labels, size(labels,1)*size(labels,2)*size(labels,3),1);
     
-%   X= [];
-%   labels=[];
+   %X= [];
+   %labels=[];
 end

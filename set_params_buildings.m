@@ -41,7 +41,7 @@ params.alpha = 0.01;
 params.classifier = 'logistic_reg';
 
 %Train data directory
-basedir = '/usr/data/BuildingDetectionML/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
+basedir = '/home/mennatullah/Datasets/BuildingDetectionML/';%'/usr/data/BuildingDetectionML/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
 params.scansdir = strcat(basedir, 'training/input/');
 params.annotdir = strcat(basedir, 'training/target/');
 
@@ -49,3 +49,4 @@ params.annotdir = strcat(basedir, 'training/target/');
 params.testdatadir = strcat(basedir, 'TestData/');
 params.testgrounddir = strcat(basedir, 'TestDataGroundTruht/');
 
+params.dictionary_type= 'KSVD';

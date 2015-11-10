@@ -1,4 +1,4 @@
-function D = dictionary(patches, params)
+function D = dictionary_ksvd(patches, params)
 % Train the dictionary with orthogonal matching pursuit(OMP)
 % Parameters:
 %   patches:    image patches
@@ -16,6 +16,13 @@ function D = dictionary(patches, params)
 
     % Train dictionary
     disp('Training Dictionary...');
-    D.codes = run_omp1(nX, nfeats, params.D_iter);
-end
+    params_ksvd.data = nX';
+    params_ksvd.Tdata = 1;
+    params_ksvd.dictsize = params.nfeats;
+    params_ksvd.iternum = params.D_iter;
+    params_ksvd.memusage = 'high';
+    %params.exact= 1;
 
+    [Dksvd,g,err] = ksvd(params_ksvd,'');
+    D.codes = Dksvd';
+end
