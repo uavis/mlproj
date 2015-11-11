@@ -71,4 +71,4 @@ toc;
 %% Testing
 volume_index = 1;
 slice_index = 210;
-test_and_visualize(volume_index, params, model, D, scaleparams);
+test_and_visualize(volume_index, slice_index, params, model, D, scaleparams);
