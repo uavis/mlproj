@@ -1,4 +1,4 @@
-function [B pars] = demo_fast_sc(opt_choice,X, patch_size,patch_num,num_bases,beta,batch_size,num_iters)
+function [B pars] = demo_fast_sc(opt_choice,X, num_bases,beta,batch_size,num_iters)
 % opt_choice = 1: use epslion-L1 penalty
 % opt_choice = 2: use L1 penalty
 
