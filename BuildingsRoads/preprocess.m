@@ -21,7 +21,7 @@ function [patches_preproc, images, labels] = preprocess(params, imagedir, labeld
         currentlabel = imread(strcat(labeldir, currentlabelname));
         
         labels(:,:,i) =double (currentlabel(:,:,1) > 0);
-        if(params.rfSize(1)==1)
+        if(params.rfSize(3)==1)
             currentimage = rgb2gray(imread(strcat(imagedir, currentfilename)));
         else
             currentimage = imread(strcat(imagedir, currentfilename));
@@ -32,7 +32,7 @@ function [patches_preproc, images, labels] = preprocess(params, imagedir, labeld
         pyr = pyramid(currentimage, params);
         Vs= [Vs; pyr]; 
         
-        if(params.rfSize(1)>1)
+        if(params.rfSize(3)>1)
             VsR = [VsR; pyr(1:6, :)];
             VsG = [VsG; pyr(7:12, :)];
             VsB = [VsB; pyr(13:end, :)];
@@ -46,7 +46,7 @@ function [patches_preproc, images, labels] = preprocess(params, imagedir, labeld
     
     % Extract Patches from the Gaussian Pyramid
     patches = extract_patches_building(Vs, params);
-    if(params.rfSize(1)>1)
+    if(params.rfSize(3)>1)
         images = [VsR; VsG; VsB];
     else
         images= Vs;

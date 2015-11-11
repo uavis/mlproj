@@ -39,13 +39,13 @@ function patches = extract_patches(V, params)
         r = random('unid', nrows - rfSize(1) + 1);
         c = random('unid', ncols - rfSize(2) + 1);
         patch = patch(r:r+rfSize(1)-1,c:c+rfSize(2)-1,:);
-        if i==1
-            figure, imshow(uint8(patch));
-        end
+        %if i==1
+        %    figure, imshow(uint8(patch));
+        %end
         patches(i,:) = patch(:)';
     end
     
-    save rgbPatches.mat patches
+    %save rgbPatches.mat patches
     disp('Contrast normalization...');
     % +10 offset was added to the variance to avoid dividing by zero and also supressing noise
     patches = bsxfun(@rdivide, bsxfun(@minus, patches, mean(patches,2)), sqrt(var(patches,0,2) + 10));
