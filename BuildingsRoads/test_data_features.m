@@ -2,7 +2,7 @@
 %%evaluation.
 function [X, labels] = test_data_features(D, params)
     % Prepocessing
-    [patches, images, labels] = preprocess(params, params.testdatadir, params.testgrounddir, 2);
+    [patches, images, labels] = preprocess(params, params.testdatadir, params.testgrounddir, 1);
     
     %Learning features for each pixel of each picture in the pyramid
     % Compute first module feature maps on slices with annotations

@@ -23,7 +23,7 @@ params.numscales = 6;
 
 % Receptive field size e.g. 9x9
 % Assume single modality to simplify
-params.rfSize= [9 9 1];
+params.rfSize= [9 9 3];
 
 % size of region?
 params.regSize = [params.upsample(1) + params.rfSize(1) - 1 params.upsample(2) + params.rfSize(2) - 1 1];
@@ -32,7 +32,7 @@ params.regSize = [params.upsample(1) + params.rfSize(1) - 1 params.upsample(2) +
 params.ratio = 15; % Ask Vincent about that parameter
 
 % Number of patches to train dictionary
-params.npatches = 10;
+params.npatches = 100000;
 
 % Number of features per scale. Total # of features: nfeats * numscales
 params.nfeats = 32;
@@ -40,7 +40,7 @@ params.nfeats = 32;
 
 %--------------------------------------------------------------------------
 %Type of encoder and parametes 
-params.encoder = 'omp' % omp, softThresh
+params.encoder = 'omp'; % omp, softThresh
 
 % K for ompK algorithm
 params.omp_k = 4;
@@ -62,10 +62,14 @@ params.numTree = 50;
 basedir = '/usr/data/BuildingDetectionML/';%'/usr/data/BuildingDetectionML/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
 params.scansdir = strcat(basedir, 'training/input/');
 params.annotdir = strcat(basedir, 'training/target/');
-
+params.range = 2;
 %Test data directory
 params.testdatadir = strcat(basedir, 'TestData/');
 params.testgrounddir = strcat(basedir, 'TestDataGroundTruht/');
 
 %--------------------------------------------------------------------------
-params.dictionary_type= 'omp';
+params.dictionary_type= 'KSVD'; % KSVD, omp
+
+disp ('parameters that are being used');
+params
+
