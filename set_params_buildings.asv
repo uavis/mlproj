@@ -40,7 +40,7 @@ params.nfeats = 32;
 
 %--------------------------------------------------------------------------
 %Type of encoder and parametes 
-params.encoder = 'omp'; % omp, softThresh,sc(sparse coding)
+params.encoder = 'omp'; % omp, softThresh,sc(s)
 
 % K for ompK algorithm
 params.omp_k = 4;

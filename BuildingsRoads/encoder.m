@@ -11,5 +11,9 @@ function xc = encoder(patches, D, params)
         %Eg. put all the negative numbers to zero.
         %xc = sign(xc).*max(abs(xc) - params.alpha, 0);
         xc = max(xc, 0);
+    elseif (strcmp(params.encoder, 'sc'))%sparse encoding
+        load pars.mat
+        xc = sparse_encoding_ML((D.codes)', patches', pars);
+        xc = xc';
     end
 end
