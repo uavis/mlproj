@@ -20,7 +20,7 @@ function [D,X,labels] = run_mslesion(params)
         ant_file = sprintf('%1$s%2$02d/UNC_train_Case%2$02d_lesion.nhdr',params.annotdir,i);
         A{i} = load_annotation(ant_file);
         % Remove slices that only contain black pixels
-        ind = del_empty_slices(I_mask{i});
+        ind = del_empty_slices(A{i});
         A{i} = A{i}(:,:,ind); % only keep meaningful slices
         I_mask{i} = I_mask{i}(:,:,ind);
         % Only keep the brain tissue
