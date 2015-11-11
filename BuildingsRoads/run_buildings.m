@@ -17,6 +17,8 @@ function [D,X,labels] = run_buildings(params)
         D = dictionary_ksvd(patches, params);
     elseif (strcmp(params.dictionary_type, 'omp'))
         D = dictionary(patches, params);
+    elseif (strcmp(params.dictionary_type, 'sc'))
+        D = dictionary_sc(patches, params);
     end
     disp(sprintf('Time Spent on learning the dictionary in minutes= %f', toc/60));
     
