@@ -26,7 +26,7 @@ params.rfSize = [5 5 1];
 % size of region?
 params.regSize = [params.upsample(1) + params.rfSize(1) - 1 params.upsample(2) + params.rfSize(2) - 1 1];
 % # of total pixels / # of lesion pixels
-params.ratio = 15; % Ask Vincent about that parameter
+params.ratio = 15;
 
 % Number of patches to train dictionary
 params.npatches = 100000;
@@ -34,11 +34,11 @@ params.npatches = 100000;
 % Number of features per scale. Total # of features: nfeats * numscales
 params.nfeats = 32;
 
-% Set data location
+% Set data location for MS lesions
 basedir = '/usr/data/medical_images/MSlesion08/';
 % Training data
 params.scansdir = strcat(basedir, 'skull_stripped_UNC_train_Case');
-params.annotdir = strcat(baseir, 'UNC_train_Case');
+params.annotdir = strcat(basedir, 'skull_stripped_UNC_train_Case');
 % Test data
 params.testdatadir = strcat(basedir, 'skull_stripped_UNC_test_Case');
 
