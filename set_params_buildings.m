@@ -68,7 +68,7 @@ params.testdatadir = strcat(basedir, 'TestData/');
 params.testgrounddir = strcat(basedir, 'TestDataGroundTruht/');
 
 %--------------------------------------------------------------------------
-params.dictionary_type= 'KSVD'; % KSVD, omp
+params.dictionary_type= 'omp'; % KSVD, omp
 
 disp ('parameters that are being used');
 params
