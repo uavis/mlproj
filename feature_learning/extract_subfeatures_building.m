@@ -35,13 +35,9 @@ function XC = extract_subfeatures_building(X, D, im, params)
         %whitening
         patches = zcawhitening(patches, params);
         
-        % Activation
-        xc = patches * D.codes'; % # of patches by k(# of features)
+        %Encoding
+        xc = encoder(patches, D, params);
         
-        %soft thresholding. there are other possibilities to implement it.
-        %Eg. put all the negative numbers to zero.
-        xc = sign(xc).*max(abs(xc) - params.alpha, 0);
-        % Save Features
         XC(i,:) = xc(:)';
     end
 

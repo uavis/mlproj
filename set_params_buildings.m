@@ -12,8 +12,9 @@ addpath(genpath('.'))
 params.layer = 1;
 params.alpha = 0;
 params.D_iter = 50;
-% -------------
 
+
+%--------------------------------------------------------------------------
 % Upsampling size. Should be the x,y dimension of the volumes
 params.upsample = [1500 1500];
 
@@ -22,26 +23,43 @@ params.numscales = 6;
 
 % Receptive field size e.g. 9x9
 % Assume single modality to simplify
-params.rfSize= [9 9 3];
+params.rfSize= [9 9 1];
+
 % size of region?
 params.regSize = [params.upsample(1) + params.rfSize(1) - 1 params.upsample(2) + params.rfSize(2) - 1 1];
+
 % # of total pixels / # of lesion pixels
 params.ratio = 15; % Ask Vincent about that parameter
 
 % Number of patches to train dictionary
-params.npatches = 100000;
+params.npatches = 10;
 
 % Number of features per scale. Total # of features: nfeats * numscales
 params.nfeats = 32;
 
+
+%--------------------------------------------------------------------------
+%Type of encoder and parametes 
+params.encoder = 'omp' % omp, softThresh
+
+% K for ompK algorithm
+params.omp_k = 4;
+
 %Threshold alpha for soft thresholding in encoding
 params.alpha = 0.01;
 
-%Type of the classifier 
-params.classifier = 'logistic_reg';
 
+%--------------------------------------------------------------------------
+%Classification setup
+%Type of the classifier
+params.classifier = 'logistic_reg'; % logistic_reg, svm, RF
+%number of trees if RF is being used 
+params.numTree = 50; 
+
+
+%--------------------------------------------------------------------------
 %Train data directory
-basedir = '/home/mennatullah/Datasets/BuildingDetectionML/';%'/usr/data/BuildingDetectionML/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
+basedir = '/usr/data/BuildingDetectionML/';%'/usr/data/BuildingDetectionML/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
 params.scansdir = strcat(basedir, 'training/input/');
 params.annotdir = strcat(basedir, 'training/target/');
 
@@ -49,4 +67,5 @@ params.annotdir = strcat(basedir, 'training/target/');
 params.testdatadir = strcat(basedir, 'TestData/');
 params.testgrounddir = strcat(basedir, 'TestDataGroundTruht/');
 
-params.dictionary_type= 'KSVD';
+%--------------------------------------------------------------------------
+params.dictionary_type= 'omp';
