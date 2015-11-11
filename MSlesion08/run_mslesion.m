@@ -11,10 +11,10 @@ function [D,X,labels] = run_mslesion(params)
     % Initialization
     for i = 1:ntv
         % I is a 3D volume of the scan
-        scan = sprintf('%1$s%2$02d/UNC_train_Case%2$02d_T1.nrrd',params.scansdir,i);
+        scan = sprintf('%1$s%2$02d/UNC_train_Case%2$02d_T1_s.nhdr',params.scansdir,i);
         I = load_mslesion(scan);
         % I_mask is the mask for the scan
-        mask = sprintf('%1$s%2$02d/UNC_train_Case%2$02d_T1_mask.nrrd',params.scansdir,i);
+        mask = sprintf('%1$s%2$02d/UNC_train_Case%2$02d_T1_s_mask.nhdr',params.scansdir,i);
         I_mask{i} = load_annotation(mask);
         % Load the annotations (labels: 0/1) in 3D matrix
         ant_file = sprintf('%1$s%2$02d/UNC_train_Case%2$02d_lesion.nhdr',params.annotdir,i);
@@ -63,10 +63,10 @@ function [D,X,labels] = run_mslesion(params)
         slice_ind = Vlist{i}(params.numscales:params.numscales:end)/params.numscales;
         [tr, tl] = convert2(L{i}, I_mask{i}(:,:,slice_ind), A{i}(:,:,slice_ind), slice_ind, params);
         % Debug *********************
-        plot(1:length(tl), tl);
-        axis([0 length(tl) 0 3]);
-        title('voxel labels on 5 selected slices');
-        ylabel('label'); xlabel('voxel');
+        %plot(1:length(tl), tl);
+        %axis([0 length(tl) 0 3]);
+        %title('voxel labels on 5 selected slices');
+        %ylabel('label'); xlabel('voxel');
         % Debug End *****************
         X = [X; tr];
         labels = [labels; tl];

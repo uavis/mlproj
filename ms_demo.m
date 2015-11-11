@@ -6,10 +6,6 @@ clear; close all;
 
 %% Set hyperparameters and data location
 set_params;
-basedir = '/usr/data/medical_images/MSlesion08/';
-%params.scansdir = strcat(basedir, 'UNC_train_Case');
-params.scansdir = strcat(basedir, 'skull_stripped_UNC_train_Case');
-params.annotdir = strcat(basedir, 'UNC_train_Case');
 
 %volume_index = 1;
 %scan = sprintf('%1$s%2$02d/UNC_train_Case%2$02d_T1.nhdr',params.scansdir,volume_index);
@@ -72,35 +68,7 @@ n_folds = 10;
 % Gather time
 toc;
 
-%% Load a volume to segment
+%% Testing
 volume_index = 1;
-%[V, V_seg] = load_mslesion(params, volume_index);
-scan = sprintf('%1$s%2$02d/UNC_train_Case%2$02d_T1.nrrd',params.scansdir,volume_index);
-V = load_mslesion(scan);
-mask = sprintf('%1$s%2$02d/UNC_train_Case%2$02d_T1_mask.nrrd',params.scansdir,volume_index);
-V_mask = load_annotation(mask);
-
-%% Compute a segmentation on a slice of V
-%slice_index = 211;
 slice_index = 210;
-preds = segment_lesions(V(:,:,slice_index), V_mask(:,:,slice_index), model, D, params, scaleparams);
-
-%% Visualize the result
-% visualize_segment(V(:,:,slice_index), preds>0.5);
-ant_file = sprintf('%1$s%2$02d/UNC_train_Case%2$02d_lesion.nhdr',params.annotdir,volume_index);
-A = load_annotation(ant_file);
-figure(1);
-subplot(1,3,1);imshow(uint8(V(:,:,slice_index)));title(sprintf('Slice #%d',slice_index));
-seg_gt = imoverlay(uint8(V(:,:,slice_index)), A(:,:,slice_index), [255/255 0/255 221/255]);
-subplot(1,3,2); imshow(seg_gt);title('Ground truth');
-seg_out = imoverlay(uint8(V(:,:,slice_index)), preds>0.5, [255/255 0/255 221/255]);
-subplot(1,3,3);imshow(seg_out);title('Segmentation result');
-
-%% Visualization to show the overlapped region of labels and predictions
-figure(2);
-visualize_labels_pred(V, A, preds, volume_index, slice_index);
-
-
-%% Visualize the dictionary
-figure(3);
-visualize_dictionary(D);
+test_and_visualize(volume_index, slice_index, params, model, D, scaleparams);

@@ -1,4 +1,4 @@
-% Script for setting the parameters
+% Script for setting the parameters for MS lesions
 %--------------------------------------------------------------------------
 
 
@@ -33,6 +33,14 @@ params.npatches = 100000;
 
 % Number of features per scale. Total # of features: nfeats * numscales
 params.nfeats = 32;
+
+% Set data location
+basedir = '/usr/data/medical_images/MSlesion08/';
+% Training data
+params.scansdir = strcat(basedir, 'skull_stripped_UNC_train_Case');
+params.annotdir = strcat(baseir, 'UNC_train_Case');
+% Test data
+params.testdatadir = strcat(basedir, 'skull_stripped_UNC_test_Case');
 
 %%%%%%%%%%%%%%%%%%%
 

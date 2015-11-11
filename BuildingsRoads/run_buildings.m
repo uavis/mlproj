@@ -33,6 +33,7 @@ function [D,X,labels] = run_buildings(params)
         L= extract_features_modalities(images, D, params);
     end
     disp(sprintf('Time Spent on Encoding in minutes= %f', toc/60));
+    clear images;
     
     tic;
     %Upsample all feature maps

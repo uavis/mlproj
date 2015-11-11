@@ -19,8 +19,8 @@ function imlist = imagelist2(annotations, numscales)
     end
 
     % maxk is a MEC-C function for partial quick sort ( Average complexity: O(n) )
-    num_slices = 5;
-    [~, loc] = maxk(num_pos_labels, num_slices); % select the top 'num_slices' slices
+    num_slices = 1;
+    [~, loc] = max(num_pos_labels, num_slices); % select the top 'num_slices' slices
     selected_slices = pos_slice_inds(loc);
 
     % DEBUG *********
