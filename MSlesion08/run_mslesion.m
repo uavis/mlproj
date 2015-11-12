@@ -38,7 +38,7 @@ function [D,X,labels] = run_mslesion(params)
     end
 
     % Extract patches
-    patches = extract_patches_lesion(Vs, params);
+    patches = extract_patches_lesion(Vs, params,A);
     clear Vs;
 
     % Train dictionary
