@@ -4,9 +4,10 @@ function patches = extract_patches_lesion(V, params, A)
 %       
 %       V:      the list of scaled images
 %       params: dictionary of parameters
+%       A: Annotation 
 %   Return:
 %       patches: normalized patches from the images
-%       A: Annotation 
+
 
     % Parameters
     rfSize = params.rfSize;
@@ -18,29 +19,28 @@ function patches = extract_patches_lesion(V, params, A)
     
     %%
     disp('Extracting patches from the lesion part of the slices...');
-    ntv = 1;   % number of training volumes
     nLesionPatchs = 0;
-    for i = 1:ntv 
-        
-        [rs, cs, zs] = find(A{i});
-        
-        for j = 1:length(rs)
-            s1 = rs(j); e1 = rs(j)+rfSize(1)-1;
-            s2 = cs(j); e2 = cs(j)+rfSize(2)-1;
-            if e1 <= size(A{i},1) && e2 <= size(A{i},2)
-            
-                patch = A{i}(s1:e1,s2:e2,:);
-
-                for k = 1:size(patch,3)
+    for i = 1:size(A,1)  % number of training volumes
+        for k = 1:size(A{i},1) % loop through each slice
+            tmp_slice = A{i}{k};
+            [rs, cs] = find(tmp_slice);
+            rs = rs(1:min(100, length(rs)));
+            cs = cs(1:min(100, length(cs)));
+            for j = 1:length(rs)
+                s1 = rs(j); e1 = rs(j)+rfSize(1)-1;
+                s2 = cs(j); e2 = cs(j)+rfSize(2)-1;
+                if e1 < size(tmp_slice,1) && e2 < size(tmp_slice,2)
+                    patch = tmp_slice(s1:e1,s2:e2);
                     nLesionPatchs = nLesionPatchs + 1;
-                    patches(nLesionPatchs,:) = reshape(patch(:,:,k), size(patches(nLesionPatchs,:)));
-
+                    patches(nLesionPatchs,:) = patch(:)';
                 end
-                
             end
         end
-        
     end
+    
+    % only keep up to npatches/2 lesion patches
+    rand_idx_lesions = randperm(nLesionPatchs,floor(npatches/2));
+    patches(setdiff(1:nLesionPatchs, rand_idx_lesions), :)=[];
     %%
     
     
