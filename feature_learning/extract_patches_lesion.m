@@ -1,10 +1,12 @@
-function patches = extract_patches_lesion(V, params, annot, mask)
+function patches = extract_patches_lesion(V, params, A)
 % Take a list of images and return the patches
 %   Parameters:
+%       
 %       V:      the list of scaled images
 %       params: dictionary of parameters
 %   Return:
 %       patches: normalized patches from the images
+%       A: Annotation 
 
     % Parameters
     rfSize = params.rfSize;
@@ -13,8 +15,37 @@ function patches = extract_patches_lesion(V, params, annot, mask)
     % Main loop
     patches = zeros(npatches, rfSize(1) * rfSize(2) * rfSize(3));
     disp('Extracting patches...');
+    
+    %%
+    disp('Extracting patches from the lesion part of the slices...');
+    ntv = 1;   % number of training volumes
+    nLesionPatchs = 0;
+    for i = 1:ntv 
+        
+        [rs, cs, zs] = find(A{i});
+        
+        for j = 1:length(rs)
+            s1 = rs(j); e1 = rs(j)+rfSize(1)-1;
+            s2 = cs(j); e2 = cs(j)+rfSize(2)-1;
+            if e1 <= size(A{i},1) && e2 <= size(A{i},2)
+            
+                patch = A{i}(s1:e1,s2:e2,:);
 
-    for i=1:npatches
+                for k = 1:size(patch,3)
+                    nLesionPatchs = nLesionPatchs + 1;
+                    patches(nLesionPatchs,:) = reshape(patch(:,:,k), size(patches(nLesionPatchs,:)));
+
+                end
+                
+            end
+        end
+        
+    end
+    %%
+    
+    
+
+    for i=nLesionPatchs+1:npatches
 
         patch = double(V{mod(i-1,length(V))+1}); % a scaled image in the pyramid
         patch = squeeze(patch); % remove sington dimensions
@@ -34,6 +65,7 @@ function patches = extract_patches_lesion(V, params, annot, mask)
 
         patch = patch(r:r+rfSize(1)-1,c:c+rfSize(2)-1,:);
         patches(i,:) = patch(:)';
+    
     end
 
     disp('Contrast normalization...');
