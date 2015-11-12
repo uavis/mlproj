@@ -4,7 +4,7 @@ function imlist = imagelist2(annotations, numscales)
 %               annotations: annotations in 3D matrix
 %               numscales:   number of scale of gaussian pyramid
 % Returns:
-%               imlist:      a list of slices with annotations
+%               imlist:      a list of scaled slices with annotations
 
     % Process each slice
     max_val = squeeze(max(max( annotations, [] , 2))); % a column vector of maximum value in each slice
