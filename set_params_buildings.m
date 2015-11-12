@@ -11,7 +11,7 @@ addpath(genpath('.'))
 % Do not change
 params.layer = 1;
 params.alpha = 0;
-params.D_iter = 50;
+params.D_iter = 100;
 
 
 %--------------------------------------------------------------------------
@@ -23,7 +23,7 @@ params.numscales = 6;
 
 % Receptive field size e.g. 9x9
 % Assume single modality to simplify
-params.rfSize= [9 9 1];
+params.rfSize= [9 9 3];
 
 % size of region?
 params.regSize = [params.upsample(1) + params.rfSize(1) - 1 params.upsample(2) + params.rfSize(2) - 1 1];
@@ -68,7 +68,7 @@ params.testdatadir = strcat(basedir, 'TestData/');
 params.testgrounddir = strcat(basedir, 'TestDataGroundTruht/');
 
 %--------------------------------------------------------------------------
-params.dictionary_type= 'omp'; % KSVD, omp
+params.dictionary_type= 'sc'; % KSVD, omp, sc
 
 disp ('parameters that are being used');
 params

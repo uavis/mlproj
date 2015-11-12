@@ -35,5 +35,5 @@ function D = dictionary_sc(patches, params)
     
     [B pars] = demo_fast_sc(opt_choice,nX', num_bases,beta,batch_size,num_iters);
     save('pars.mat', 'pars');
-    D.codes = Dsc';
+    D.codes = B';
 end

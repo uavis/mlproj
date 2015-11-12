@@ -139,7 +139,7 @@ while t < pars.num_trials
         % Show progress in epoch
         if 1, fprintf('.'); end
         if (mod(batch,20)==0) fprintf('\n'); end
-        
+       
         % This is data to use for this step
         batch_idx = indperm((1:pars.batch_size)+pars.batch_size*(batch-1));
         Xb = X(:,batch_idx);
@@ -200,18 +200,18 @@ while t < pars.num_trials
             stat.fsparsity_avg(t), stat.elapsed_time(t));
     
     % save results
-    if mod(t,pars.save_every)==0 || t==pars.num_trials
-        fprintf('saving results ...\n');
-        experiment = [];
-        experiment.matfname = sprintf('%s.mat', pars.filename);
-        
-        if pars.display_images
-            save_figures(pars, t);
-        end
-        
-        save(experiment.matfname, 't', 'pars', 'B', 'stat');
-        fprintf('saved as %s\n', experiment.matfname);
-    end
+%     if mod(t,pars.save_every)==0 || t==pars.num_trials
+%         fprintf('saving results ...\n');
+%         experiment = [];
+%         experiment.matfname = sprintf('%s.mat', pars.filename);
+%         
+%         if pars.display_images
+%             save_figures(pars, t);
+%         end
+%         
+%         save(experiment.matfname, 't', 'pars', 'B', 'stat');
+%         fprintf('saved as %s\n', experiment.matfname);
+%     end
 end
 
 return

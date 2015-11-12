@@ -31,8 +31,8 @@ c = l2norm^2;
 trXXt = sum(sum(X.^2));
 
 lb=zeros(size(dual_lambda));
-options = optimset('Algorithm','trust-region-reflective' ,'GradObj','on', 'Hessian','on');
-%  options = optimset('GradObj','on', 'Hessian','on', 'TolFun', 1e-7);
+options = optimset('Algorithm','trust-region-reflective' ,'GradObj','on', 'Hessian','on','Display', 'off');
+%  options = optimset('GradObj','on', 'Hessian','on', 'TolFun', 1e-7, 'Display', 'off');
 
 [x, fval, exitflag, output] = fmincon(@(x) fobj_basis_dual(x, SSt, XSt, X, c, trXXt), dual_lambda, [], [], [], [], lb, [], [], options);
 % output.iterations
