@@ -1,4 +1,4 @@
-function patches = extract_patches_lesion(V, params)
+function patches = extract_patches_lesion(V, params, annot, mask)
 % Take a list of images and return the patches
 %   Parameters:
 %       V:      the list of scaled images
