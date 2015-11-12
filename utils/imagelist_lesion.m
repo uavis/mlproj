@@ -7,6 +7,7 @@ function imlist = imagelist_lesion(annotations, numscales)
 % Returns:
 %               imlist:      a list of scaled slices with annotations
 
-num_slices = size(annotations,3);
+% num_slices = size(annotations,3);
+num_slices = 10;
 % Save the slices in different scales
 imlist = 1:numscales * num_slices;

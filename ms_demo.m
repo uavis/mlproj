@@ -4,14 +4,20 @@
 %% Clear up the workspace
 clear; close all;
 
-%% Set hyperparameters and data location
-set_params;
+if exist ('ms_data.mat', 'file')~=2
+    %% Set hyperparameters and data location
+    set_params;
 
-%% Learn features and extract labels
-% D: learned dictionary of filters
-% X: matrix of features for each labelled voxel
-% labels: 0/1 labels for each datapoint in X
-[D, X, labels] = run_mslesion(params);
+    %% Learn features and extract labels
+    % D: learned dictionary of filters
+    % X: matrix of features for each labelled voxel
+    % labels: 0/1 labels for each datapoint in X
+    [D, X, labels] = run_mslesion(params);
+    % Save results to .mat file
+    save ms_data.mat D X labels params
+else
+    load ms_data
+end
 
 % measure time
 tic;
@@ -25,6 +31,6 @@ n_folds = 10;
 % Gather time
 disp(sprintf('Time Spent on classification in minutes= %f', toc/60));
 
-%% Testing
+%% Testing and visulization
 %volume_index = 1;
 %test_and_visualize(volume_index, params, model, D, scaleparams);

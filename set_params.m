@@ -26,7 +26,7 @@ params.rfSize = [5 5 1];
 % size of region?
 params.regSize = [params.upsample(1) + params.rfSize(1) - 1 params.upsample(2) + params.rfSize(2) - 1 1];
 % # of total pixels / # of lesion pixels
-params.ratio = 5;
+params.ratio = 4;
 
 % Number of patches to train dictionary
 params.npatches = 100000;
@@ -42,6 +42,6 @@ params.annotdir = strcat(basedir, 'skull_stripped_UNC_train_Case');
 % Test data
 params.testdatadir = strcat(basedir, 'skull_stripped_UNC_test_Case');
 % Number of volumes to load
-params.ntv = 2;
+params.ntv = 5;
 %%%%%%%%%%%%%%%%%%%
 

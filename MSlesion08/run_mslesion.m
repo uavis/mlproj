@@ -5,6 +5,9 @@ function [D,X,labels] = run_mslesion(params)
     tic
     [patches, V, Vlist, I_mask, A] = preprocess_mslesion(params);
     disp(sprintf('Time Spent on Preprocessing in minutes= %f', toc/60));
+    if exist ('ms_inter_data.mat', 'file')~=2
+        save ms_inter_data.mat patches V Vlist I_mask A
+    end
 
     % Train dictionary
     tic
@@ -20,6 +23,9 @@ function [D,X,labels] = run_mslesion(params)
     end
     clear V;
     disp(sprintf('Time Spent on Encoding in minutes= %f', toc/60));
+    if exist ('ms_inter_feature.mat', 'file')~=2
+        save ms_inter_feature.mat L -v7.3
+    end
 
     % Upsample all feature maps
     tic
@@ -28,12 +34,15 @@ function [D,X,labels] = run_mslesion(params)
         L{i} = upsample(L{i}, params.numscales, params.upsample);
     end
     disp(sprintf('Time Spent on upsampling in minutes= %f', toc/60));
+    if exist ('ms_inter_up_feature.mat', 'file')~=2
+        save ms_inter_up_feature.mat L -v7.3
+    end
 
     % Compute features for classification
     tic
     disp('Computing pixel-level features...')
     X = []; labels = [];
-    for i = 1:ntv
+    for i = 1:params.ntv
         % Need to pass in the Image data, only convert the brain tissue
         slice_ind = Vlist{i}(params.numscales:params.numscales:end)/params.numscales;
         [tr, tl] = convert2(L{i}, I_mask{i}(:,:,slice_ind), A{i}(:,:,slice_ind), slice_ind, params);
