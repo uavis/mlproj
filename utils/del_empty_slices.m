@@ -1,6 +1,10 @@
 function ind = del_empty_slices(mask)
 % Skip the images where the pixels corresponding to brain tissues
 % is below a threshold
+% Input: 
+%   mask: a brain mask
+% Output: 
+%   ind: the z-index of the slices where there are abundant brain tissues 
     z_range = size(mask,3);
     empty_slices = zeros(z_range, 1);
     thres = 0.2 * size(mask,1) * size(mask,2);
