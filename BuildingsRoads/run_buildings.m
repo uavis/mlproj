@@ -8,7 +8,6 @@ function [D,X,labels] = run_buildings(params)
     [patches, images, labels] = preprocess(params, params.scansdir, params.annotdir, params.range);
     disp(sprintf('Time Spent on Preprocessing in minutes= %f', toc/60));
     
-    tic;
     %% Train dictionary
     %To change the method for dictionary learning, please see inside
     %dictionary function. By default, uses omp-1.

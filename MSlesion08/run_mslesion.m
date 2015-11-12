@@ -2,8 +2,9 @@ function [D,X,labels] = run_mslesion(params)
 % Function for learning features and extracting labels
     % Load volumes, annotations and pre-process
     disp('Loading and pre-processing data...')
+    tic
     % Some parameters, might move them into `params' later
-    ntv = 10;   % number of training volumes
+    ntv = 2;   % number of training volumes
     V = cell(ntv, 1);
     A = cell(ntv, 1);
     A_py = cell(ntv, 1);
@@ -42,24 +43,33 @@ function [D,X,labels] = run_mslesion(params)
     % Extract patches
     patches = extract_patches_lesion(Vs, params, A_py);
     clear Vs A_py;
+    disp(sprintf('Time Spent on Preprocessing in minutes= %f', toc/60));
 
     % Train dictionary
+    tic
     D = dictionary(patches, params);
+    disp(sprintf('Time Spent on learning the dictionary in minutes= %f', toc/60));
 
     % Compute first module feature maps
+    tic
     disp('Extracting first module feature maps...')
     L = cell(ntv, 1);
     for i = 1:ntv
         L{i} = extract_features_lesions(V{i}(Vlist{i}), D, params);  % Only extract features from slices with meaningful annotations
     end
+    clear V;
+    disp(sprintf('Time Spent on Encoding in minutes= %f', toc/60));
 
     % Upsample all feature maps
+    tic
     disp('Upsampling feature maps...')
     for i = 1:ntv
         L{i} = upsample(L{i}, params.numscales, params.upsample);
     end
+    disp(sprintf('Time Spent on upsampling in minutes= %f', toc/60));
 
     % Compute features for classification
+    tic
     disp('Computing pixel-level features...')
     X = []; labels = [];
     for i = 1:ntv
@@ -75,4 +85,4 @@ function [D,X,labels] = run_mslesion(params)
         X = [X; tr];
         labels = [labels; tl];
     end
-
+    disp(sprintf('Time Spent on computing pixel-level features in minutes= %f', toc/60));
