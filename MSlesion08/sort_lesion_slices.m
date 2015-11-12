@@ -6,7 +6,7 @@ function [ num_pos_labels, sorted_idx ] = sort_lesion_slices( slice_idx, annotat
         num_pos_labels(i) = length(find(annotations(:,:,slice_idx(i))));
     end
     % Return the sorted index and the corresponding num of pos labels
-    [num_pos_labels, sorted_idx] = sort(num_pos_labels, 'descend');
-
+    [num_pos_labels, tmp_idx] = sort(num_pos_labels, 'descend');
+    sorted_idx = slice_idx(tmp_idx);
 end
 
