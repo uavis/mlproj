@@ -13,7 +13,7 @@ for i = 1:length(vals)
     
     % Loop over folds
     accfold = zeros(length(numfolds), 1);
-    for j = 1:numfolds
+    parfor j = 1:numfolds
         
         % Use one fold as the test set, the other folds are used for training
         [trainSet, testSet, labelsTrain, labelsTest] = generateSets(X, L, folds, j);
