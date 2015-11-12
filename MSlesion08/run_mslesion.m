@@ -3,9 +3,10 @@ function [D,X,labels] = run_mslesion(params)
     % Load volumes, annotations and pre-process
     disp('Loading and pre-processing data...')
     % Some parameters, might move them into `params' later
-    ntv = 1;   % number of training volumes
+    ntv = 10;   % number of training volumes
     V = cell(ntv, 1);
     A = cell(ntv, 1);
+    A_py = cell(ntv, 1);
     Vlist = cell(ntv, 1);
     I_mask = cell(ntv, 1);
     Vs = [];
@@ -30,6 +31,7 @@ function [D,X,labels] = run_mslesion(params)
         % Gaussian Pyramid of the image, saved in a vector
         % V{i} is a cell array each of which is a scaled image in the pyramid
         V{i} = pyramid(I, params);
+        A_py{i} = pyramid(A{i}, params);
         % The list of indexes of the slices which contain positive labels (ms lesion)
         Vlist{i} = imagelist_lesion(A{i}, params.numscales);
         % Vs is a vector of cells where each cell is a scaled image
@@ -38,8 +40,8 @@ function [D,X,labels] = run_mslesion(params)
     end
 
     % Extract patches
-    patches = extract_patches_lesion(Vs, params,A);
-    clear Vs;
+    patches = extract_patches_lesion(Vs, params, A_py);
+    clear Vs A_py;
 
     % Train dictionary
     D = dictionary(patches, params);
