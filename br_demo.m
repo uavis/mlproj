@@ -34,6 +34,9 @@ tic;
 %load results.mat
 [model, prediction]=classification (labels_train, X_train, labels_test, X_test, params);
 disp(sprintf('Time Spent on training the classifier in minutes= %f', toc/60));
+
+%Evaluation metrics
+[acc, precision, recall, f1, jaccard, dice] = evaluationBuilding(prediction, labels_test);
 save results.mat prediction;
 temp_visualize_results(prediction, labels_test);
 
