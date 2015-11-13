@@ -11,7 +11,7 @@ if exist ('data.mat', 'file')~=2
     %% Set hyperparameters and data location
     set_params_buildings;
 
-    %% Run the code for building and road datasets preprocessing
+    %% Run the code for building and road datasets close allpreprocessing
     [D, X_train, labels_train] = run_buildings(params);
 
     %% Extractig Features for the test dataset
