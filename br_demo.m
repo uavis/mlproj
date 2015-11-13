@@ -4,8 +4,6 @@
 %% Clear up the workspace
 clear; close all; clc;
 
-addpath /usr/work/ml_proj/ompbox10/
-addpath /usr/work/ml_proj/ksvdbox13/
 
 if exist ('data.mat', 'file')~=2
     %% Set hyperparameters and data location
