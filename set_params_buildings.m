@@ -23,7 +23,7 @@ params.numscales = 6;
 
 % Receptive field size e.g. 9x9
 % Assume single modality to simplify
-params.rfSize= [9 9 3];
+params.rfSize= [9 9 1];
 
 % size of region?
 params.regSize = [params.upsample(1) + params.rfSize(1) - 1 params.upsample(2) + params.rfSize(2) - 1 1];
@@ -40,7 +40,7 @@ params.nfeats = 32;
 
 %--------------------------------------------------------------------------
 %Type of encoder and parametes 
-params.encoder = 'omp'; % omp, softThresh,sc(sparse coding)
+params.encoder = 'dtx'; % omp, softThresh,sc(sparse coding), dtx is just D'x
 
 % K for ompK algorithm
 params.omp_k = 4;
@@ -52,9 +52,9 @@ params.alpha = 0.01;
 %--------------------------------------------------------------------------
 %Classification setup
 %Type of the classifier
-params.classifier = 'logistic_reg'; % logistic_reg, svm, RF
+params.classifier = 'RF'; % logistic_reg, svm, RF
 %number of trees if RF is being used 
-params.numTree = 50; 
+params.numTrees = 100; 
 
 
 %--------------------------------------------------------------------------
@@ -68,7 +68,7 @@ params.testdatadir = strcat(basedir, 'TestData/');
 params.testgrounddir = strcat(basedir, 'TestDataGroundTruht/');
 
 %--------------------------------------------------------------------------
-params.dictionary_type= 'sc'; % KSVD, omp, sc
+params.dictionary_type= 'omp'; % KSVD, omp, sc
 
 disp ('parameters that are being used');
 params

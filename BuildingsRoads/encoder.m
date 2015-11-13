@@ -5,6 +5,8 @@ function xc = encoder(patches, D, params)
         parfor i=1:m
             xc(i,:) = ompK(params.omp_k, patches(i,:)', D.codes);
         end
+    elseif strcmp(params.encoder, 'dtx')
+        xc = patches * D.codes';
     elseif (strcmp(params.encoder, 'softThresh'))
         xc = patches * D.codes'; % # of patches by k(# of features)
         %soft thresholding. there are other possibilities to implement it.
