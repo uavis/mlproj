@@ -18,5 +18,7 @@ fprintf('The number of slices that contain lesions is: %d\n', length(idx_z));
 
 [ num_pos_labels, sorted_idx ] = sort_lesion_slices( idx_z, slices );
 idx_z = sorted_idx; % sorted in descending order
+fprintf('The total number of lesions in the top 10 are %d\n', sum(num_pos_labels(1:10)));
 
 end
+

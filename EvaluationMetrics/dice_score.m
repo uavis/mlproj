@@ -10,7 +10,7 @@ if ~islogical(img_pred)
     error('Image must be in logical format');
 end
 
-dice = 2*nnz(img_true&img_pred)/(nnz(img_true) + nnz(img_pred))
+dice = 2*nnz(img_true&img_pred)/(nnz(img_true) + nnz(img_pred));
 
 
 end
