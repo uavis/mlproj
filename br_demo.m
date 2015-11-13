@@ -4,8 +4,6 @@
 %% Clear up the workspace
 clear; close all; clc;
 
-addpath /usr/work/ml_proj/ompbox10/
-addpath /usr/work/ml_proj/ksvdbox13/
 
 
 if exist ('data.mat', 'file')~=2
@@ -28,6 +26,9 @@ else
     load data.mat
     load data_train.mat
     load data_test.mat
+    %params.classifier= 'RF';
+    %params.numTrees= 20;
+    %params
 end
 
 
@@ -36,9 +37,13 @@ disp('training the classifier');
 tic;
 %load data.mat
 %load results.mat
-[model, prediction]=classification (labels_train, X_train, labels_test, X_test, params);
+[model, prediction]=classification(labels_train, X_train, labels_test, X_test, params);
 fprintf('Time Spent on training the classifier in minutes= %f\n', toc/60);
+
+%Evaluation metrics
+[acc, precision, recall, f1, jaccard, dice] = evaluationBuilding(prediction, labels_test);
 save results.mat prediction;
+save('model.mat', 'model', '-v7.3')
 temp_visualize_results(prediction, labels_test);
 
 
