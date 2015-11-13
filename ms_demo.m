@@ -16,6 +16,8 @@ if exist ('ms_data.mat', 'file')~=2
     % Save results to .mat file
     save ms_data.mat D X labels params
 else
+    disp('Loading from ms_data.mat');
+    addpath(genpath('.'));
     load ms_data
 end
 
@@ -25,12 +27,23 @@ tic;
 % Applies n_folds cross validation
 % model: the resulting model
 % scaleparams: means and stds of X
-n_folds = 10;
-[model, scaleparams] = learn_classifier(X, labels, n_folds);
+if exist ('ms_classifier.mat', 'file')~=2
+    n_folds = 10;
+    [model, scaleparams] = learn_classifier(X, labels, n_folds);
+    save ms_classifier.mat model scaleparams -v7.3
+else
+    disp('Loading from ms_classifier.mat');
+    load ms_classifier
+end
 
 % Gather time
-disp(sprintf('Time Spent on classification in minutes= %f', toc/60));
+fprintf('Time Spent on classification in minutes= %f\n', toc/60);
+
+%% Getting evaluation metrics
+tic;
+eval_stats = eval_metric_lesion(model, scaleparams, D, params);
+fprintf('Time Spent on evaluation stats in minutes= %f\n', toc/60);
 
 %% Testing and visulization
-%volume_index = 1;
+%volume_index = 10;
 %test_and_visualize(volume_index, params, model, D, scaleparams);
