@@ -11,8 +11,9 @@ function [model, scaleparams] = learn_classifier(X, labels, numfolds)
 
     % Apply cross-validation
     disp('Performing cross validation...')
-    [optval, acc] = xval(X, labels, vals, numfolds);
+    [optval, acc, f1] = xval(X, labels, vals, numfolds);
     disp(['Accuracy (not cv accuracy): ' num2str(max(acc) * 100) '%']);
+    disp(['F1 (not cv F1): ' num2str(max(f1) * 100) '%']);
 
     % Scale the data and train
     disp('Training Logistic Regression...')
@@ -21,7 +22,7 @@ function [model, scaleparams] = learn_classifier(X, labels, numfolds)
     model = softmax_regression(X, labels, 2, optval);
     
     % cross validation accuracy
-    disp('Computing cross validation accuracy...')
-    [cvAcc] = accuracy_CV(X, labels, vals, numfolds)
-    disp(['Cross Validation Accuracy: ' num2str(max(cvAcc) * 100) '%']);
+%     disp('Computing cross validation accuracy...')
+%     [cvAcc] = accuracy_CV(X, labels, vals, numfolds);
+%     disp(['Cross Validation Accuracy: ' num2str(max(cvAcc) * 100) '%']);
 

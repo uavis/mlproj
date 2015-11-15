@@ -24,7 +24,7 @@ function L = extract_features_lesions(X, D, params)
         batch = X((chunk-1) * chunksize + 1 : min([chunk * chunksize end]));
         L_batch = cell(size(batch, 1), 1); % TODO: verify
 
-        for i = 1:size(batch, 1)
+        parfor i = 1:size(batch, 1)
 
             im = double(batch{i});
             im = squeeze(im);

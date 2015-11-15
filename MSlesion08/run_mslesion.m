@@ -3,10 +3,13 @@ function [D,X,labels] = run_mslesion(params)
     % Load volumes, annotations and pre-process
     disp('Loading and pre-processing data...')
     tic
-    [patches, V, Vlist, I_mask, A] = preprocess_mslesion(params);
-    fprintf('Time Spent on Preprocessing in minutes= %f\n', toc/60);
     if exist ('ms_inter_data.mat', 'file')~=2
+        [patches, V, Vlist, I_mask, A] = preprocess_mslesion(params);
+        fprintf('Time Spent on Preprocessing in minutes= %f\n', toc/60);
         save ms_inter_data.mat patches V Vlist I_mask A
+    else
+        disp('Loading from ms_inter_data.mat');
+        load ms_inter_data.mat
     end
 
     % Train dictionary
@@ -17,25 +20,31 @@ function [D,X,labels] = run_mslesion(params)
     % Compute first module feature maps
     tic
     disp('Extracting first module feature maps...')
-    L = cell(params.ntv, 1);
-    for i = 1:params.ntv
-        L{i} = extract_features_lesions(V{i}(Vlist{i}), D, params);  % Only extract features from slices with meaningful annotations
-    end
-    clear V;
-    fprintf('Time Spent on Encoding in minutes= %f\n', toc/60);
     if exist ('ms_inter_feature.mat', 'file')~=2
+        L = cell(params.ntv, 1);
+        for i = 1:params.ntv
+            L{i} = extract_features_lesions(V{i}(Vlist{i}), D, params);  % Only extract features from slices with meaningful annotations
+        end
+        clear V;
+        fprintf('Time Spent on Encoding in minutes= %f\n', toc/60);
         save ms_inter_feature.mat L -v7.3
+    else
+        disp('Loading from ms_inter_feature.mat');
+        load ms_inter_feature.mat
     end
 
     % Upsample all feature maps
     tic
     disp('Upsampling feature maps...')
-    for i = 1:params.ntv
-        L{i} = upsample(L{i}, params.numscales, params.upsample);
-    end
-    fprintf('Time Spent on upsampling in minutes= %f\n', toc/60);
     if exist ('ms_inter_up_feature.mat', 'file')~=2
+        for i = 1:params.ntv
+            L{i} = upsample(L{i}, params.numscales, params.upsample);
+        end
+        fprintf('Time Spent on upsampling in minutes= %f\n', toc/60);
         save ms_inter_up_feature.mat L -v7.3
+    else
+        disp('Loading from ms_inter_up_feature.mat');
+        load ms_inter_up_feature.mat
     end
 
     % Compute features for classification
