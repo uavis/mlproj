@@ -52,7 +52,7 @@ params.alpha = 0.01;
 %--------------------------------------------------------------------------
 %Classification setup
 %Type of the classifier
-params.classifier = 'RF'; % logistic_reg, svm, RF
+params.classifier = 'logistic_reg'; % logistic_reg, svm, RF
 %number of trees if RF is being used 
 params.numTrees = 100; 
 

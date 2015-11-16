@@ -25,8 +25,9 @@ else
     load data.mat
     load data_train.mat
     load data_test.mat
-    %params.classifier= 'RF';
-    %params.numTrees= 20;
+    params.classifier= 'logistic_reg';
+    params
+    %params.numTrees= 40;
     %params
 end
 
@@ -34,17 +35,20 @@ end
 %% Training the Classifier
 disp('training the classifier');
 tic;
-%load data.mat
-%load results.mat
+% load data.mat
+% load results.mat
+
 [model, prediction]=classification(labels_train, X_train, labels_test, X_test, params);
 disp(sprintf('Time Spent on training the classifier in minutes= %f', toc/60));
+save resultsOMP_Reg_Dtx_Gry_NoWH.mat prediction;
+save('modelOMP_Reg_Dtx_Gry_NoWH.mat', 'model', '-v7.3')
 
 %Evaluation metrics
-[acc, precision, recall, f1, jaccard, dice] = evaluationBuilding(prediction, labels_test);
-save results.mat prediction;
-save('model.mat', 'model', '-v7.3')
-temp_visualize_results(prediction, labels_test);
+%load resultsOMP_Reg_Dtx_Gry.mat
+prediction= prediction(2, :)
+[acc, precision, recall, f1, jaccard, dice] = evaluationBuilding(prediction, labels_test)
+%temp_visualize_results(prediction, labels_test);
 
 
 %% Visualize the dictionary
-visualize_dictionary_modalities(D, params)
+%visualize_dictionary_modalities(D, params)

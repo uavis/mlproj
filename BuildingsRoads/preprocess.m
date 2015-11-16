@@ -58,7 +58,8 @@ function [patches_preproc, images, labels] = preprocess(params, imagedir, labeld
     
     % Apply ZCA Whitening
      %if(params.rfSize(3)==1)
-     patches_preproc= zcawhitening(patches, params);
+%     patches_preproc= zcawhitening(patches, params);
+    patches_preproc= patches;
 %     else
 %         patchesRGB= reshape(patches, params.npatches, params.rfSize(1), params.rfSize(2), params.rfSize(3));
 %         patches_p= {};
