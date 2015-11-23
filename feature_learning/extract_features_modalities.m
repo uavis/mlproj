@@ -1,5 +1,5 @@
 function L=extract_features_modalities(images, D, params)
-    nimages= size(images, 1)/(params.numscales*3);
+    nimages= size(images, 1)/(params.numscales*params.rfSize(3));
     for j=1:params.rfSize(3)
         D_modality.codes= D.codes(:, params.rfSize(1)*params.rfSize(2)*(j-1)+1 : params.rfSize(1)*params.rfSize(2)*j);
         D_modality.mean= D.mean(:, params.rfSize(1)*params.rfSize(2)*(j-1)+1 : params.rfSize(1)*params.rfSize(2)*j);

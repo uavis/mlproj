@@ -26,10 +26,7 @@ else
     load data.mat
     load data_train.mat
     load data_test.mat
-    params.classifier= 'logistic_reg';
     params
-    %params.numTrees= 40;
-    %params
 end
 
 
@@ -41,12 +38,12 @@ tic;
 
 [model, prediction]=classification(labels_train, X_train, labels_test, X_test, params);
 disp(sprintf('Time Spent on training the classifier in minutes= %f', toc/60));
-save resultsOMP_Reg_Dtx_Gry_NoWH.mat prediction;
-save('modelOMP_Reg_Dtx_Gry_NoWH.mat', 'model', '-v7.3')
+save results.mat prediction;
+save('model.mat', 'model', '-v7.3')
 
 %Evaluation metrics
 %load resultsOMP_Reg_Dtx_Gry.mat
-prediction= prediction(2, :)
+prediction= prediction(:, 2);
 [acc, precision, recall, f1, jaccard, dice] = evaluationBuilding(prediction, labels_test)
 %temp_visualize_results(prediction, labels_test);
 

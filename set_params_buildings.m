@@ -19,11 +19,11 @@ params.D_iter = 100;
 params.upsample = [1500 1500];
 
 % Number of scales
-params.numscales = 6;
+params.numscales = 3;
 
 % Receptive field size e.g. 9x9
 % Assume single modality to simplify
-params.rfSize= [9 9 1];
+params.rfSize= [9 9 3];
 
 % size of region?
 params.regSize = [params.upsample(1) + params.rfSize(1) - 1 params.upsample(2) + params.rfSize(2) - 1 1];
@@ -35,7 +35,7 @@ params.ratio = 15; % Ask Vincent about that parameter
 params.npatches = 100000;
 
 % Number of features per scale. Total # of features: nfeats * numscales
-params.nfeats = 32;
+params.nfeats = 64;
 
 
 %--------------------------------------------------------------------------
@@ -52,10 +52,9 @@ params.alpha = 0.01;
 %--------------------------------------------------------------------------
 %Classification setup
 %Type of the classifier
-params.classifier = 'logistic_reg'; % logistic_reg, svm, RF
+params.classifier = 'RF'; % logistic_reg, svm, RF
 %number of trees if RF is being used 
-params.numTrees = 100; 
-
+params.numTrees = 50; 
 
 %--------------------------------------------------------------------------
 %Train data directory

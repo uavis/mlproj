@@ -33,7 +33,7 @@ function XC = extract_subfeatures_building(X, D, im, params)
         patches = bsxfun(@minus, patches, D.mean);
         
         %whitening
-        %patches = zcawhitening(patches, params);
+        patches = zcawhitening(patches, params);
         
         %Encoding
         xc = encoder(patches, D, params);

@@ -33,9 +33,12 @@ function [patches_preproc, images, labels] = preprocess(params, imagedir, labeld
         Vs= [Vs; pyr]; 
         
         if(params.rfSize(3)>1)
-            VsR = [VsR; pyr(1:6, :)];
-            VsG = [VsG; pyr(7:12, :)];
-            VsB = [VsB; pyr(13:end, :)];
+%             VsR = [VsR; pyr(1:6, :)];
+%             VsG = [VsG; pyr(7:12, :)];
+%             VsB = [VsB; pyr(13:end, :)];
+            VsR = [VsR; pyr(1:params.numscales, :)];
+            VsG = [VsG; pyr(params.numscales+1:params.numscales*2, :)];
+            VsB = [VsB; pyr(params.numscales*2+1:end, :)];
         end
         
         %imshow(pyr{1});
@@ -58,8 +61,8 @@ function [patches_preproc, images, labels] = preprocess(params, imagedir, labeld
     
     % Apply ZCA Whitening
      %if(params.rfSize(3)==1)
-%     patches_preproc= zcawhitening(patches, params);
-    patches_preproc= patches;
+    patches_preproc= zcawhitening(patches, params);
+    %patches_preproc= patches;
 %     else
 %         patchesRGB= reshape(patches, params.npatches, params.rfSize(1), params.rfSize(2), params.rfSize(3));
 %         patches_p= {};
