@@ -23,7 +23,8 @@ end
 
 % measure time
 tic;
-%% Train a logistic regression classifier on X
+%% Train a classifier on X
+% Logistic regression
 % Applies n_folds cross validation
 % model: the resulting model
 % scaleparams: means and stds of X
@@ -45,5 +46,5 @@ eval_stats = eval_metric_lesion(model, scaleparams, D, params);
 fprintf('Time Spent on evaluation stats in minutes= %f\n', toc/60);
 
 %% Testing and visulization
-%volume_index = 10;
+%volume_index = 1;
 %test_and_visualize(volume_index, params, model, D, scaleparams);

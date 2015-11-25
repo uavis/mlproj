@@ -6,7 +6,7 @@ function yhat = segment_lesions(im, mask, model, D, params, scaleparams)
     if max(mask(:)) > 1; mask = mask ./ 255; end
 
     % Extract first module feature maps
-    disp('Extracting features...');
+    fprintf('.');
     L = extract_features_lesions(im, D, params);
 
     % Upsample
