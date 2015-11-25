@@ -41,7 +41,7 @@ params.annotdir = strcat(basedir, 'skull_stripped_UNC_train_Case');
 % Test data
 params.testdatadir = strcat(basedir, 'skull_stripped_UNC_test_Case');
 % Number of volumes to load
-params.ntv = 9;
+params.ntv = 1;
 % Test volume index
 params.test_vol = 10;
 %%%%%%%%%%%%%%%%%%%

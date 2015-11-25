@@ -31,6 +31,11 @@ function patches = extract_patches_lesion(V, params, A)
                 s2 = cs(j); e2 = cs(j)+rfSize(2)-1;
                 if e1 < size(tmp_slice,1) && e2 < size(tmp_slice,2)
                     patch = tmp_slice(s1:e1,s2:e2);
+                    % Debug, visualize the patch
+%                     imshow(reshape(patch,[5 5]),[]);
+%                     title(sprintf('patch %d', nLesionPatchs));
+%                     pause;
+                    % Debug END ****************
                     nLesionPatchs = nLesionPatchs + 1;
                     patches(nLesionPatchs,:) = patch(:)';
                 end
@@ -39,8 +44,10 @@ function patches = extract_patches_lesion(V, params, A)
     end
     
     % only keep up to npatches/2 lesion patches
-    rand_idx_lesions = randperm(nLesionPatchs,floor(npatches/2));
-    patches(setdiff(1:nLesionPatchs, rand_idx_lesions), :)=[];
+    if nLesionPatchs > floor(npatches/2)
+        rand_idx_lesions = randperm(nLesionPatchs,floor(npatches/2));
+        patches(setdiff(1:nLesionPatchs, rand_idx_lesions), :)=[];
+    end
     %%
     
     
@@ -58,12 +65,17 @@ function patches = extract_patches_lesion(V, params, A)
         while not_done
             r = random('unid', nrows - rfSize(1) + 1);
             c = random('unid', ncols - rfSize(2) + 1);
-            if logical(patch(r, c, :)); % only keep the non-zero pixels
+            if logical(patch(r, c, :)) % only keep the non-zero pixels
                 not_done = false;
             end
         end
 
         patch = patch(r:r+rfSize(1)-1,c:c+rfSize(2)-1,:);
+        % Debug, visualize the patch
+%         imshow(reshape(patch,[5 5]),[]);
+%         title(sprintf('patch %d', i));
+%         pause;
+        % Debug END ****************
         patches(i,:) = patch(:)';
     
     end
