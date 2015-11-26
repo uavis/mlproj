@@ -23,7 +23,7 @@ params.numscales = 3;
 
 % Receptive field size e.g. 9x9
 % Assume single modality to simplify
-params.rfSize= [9 9 3];
+params.rfSize= [15 15 3];
 
 % size of region?
 params.regSize = [params.upsample(1) + params.rfSize(1) - 1 params.upsample(2) + params.rfSize(2) - 1 1];
@@ -35,7 +35,7 @@ params.ratio = 15; % Ask Vincent about that parameter
 params.npatches = 100000;
 
 % Number of features per scale. Total # of features: nfeats * numscales
-params.nfeats = 64;
+params.nfeats = 32;
 
 
 %--------------------------------------------------------------------------
@@ -58,7 +58,7 @@ params.numTrees = 50;
 
 %--------------------------------------------------------------------------
 %Train data directory
-basedir = '/usr/data/BuildingDetectionML/';%'/usr/data/BuildingDetectionML/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
+basedir = '/usr/data/BuildingDetectionML/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
 params.scansdir = strcat(basedir, 'training/input/');
 params.annotdir = strcat(basedir, 'training/target/');
 params.range = 2;

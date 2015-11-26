@@ -36,7 +36,12 @@ tic;
 % load data.mat
 % load results.mat
 
+X_train1= X_train((labels_train==1), :);
+X_train2= X_train((labels_train==0), :);
+X_train2= X_train2(1:size(X_train1, 1), :);
+X_train= [X_train1; X_train2];
 [model, prediction]=classification(labels_train, X_train, labels_test, X_test, params);
+size(X_train, 1)
 disp(sprintf('Time Spent on training the classifier in minutes= %f', toc/60));
 save results.mat prediction;
 save('model.mat', 'model', '-v7.3')

@@ -47,36 +47,22 @@ function [patches_preproc, images, labels] = preprocess(params, imagedir, labeld
         clear pyr;
     end
     
-   % Extract Patches from the Gaussian Pyramid
-   patches = extract_patches_building(Vs, params);
-   
-   save patches.mat patches
-   % load patchesRGB.mat
     if(params.rfSize(3)>1)
         images = [VsR; VsG; VsB];
     else
         images= Vs;
     end
     clear Vs;
+
+   % Extract Patches from the Gaussian Pyramid
+   patches = extract_patches_building(images, params);
+   
+   %save patches.mat patches
+   % load patchesRGB.mat
+    
     
     % Apply ZCA Whitening
      %if(params.rfSize(3)==1)
     patches_preproc= zcawhitening(patches, params);
-    %patches_preproc= patches;
-%     else
-%         patchesRGB= reshape(patches, params.npatches, params.rfSize(1), params.rfSize(2), params.rfSize(3));
-%         patches_p= {};
-%         for i=1:params.rfSize(3)
-%             p= patchesRGB(:, :, :, i);
-%             p= reshape(p, params.npatches, params.rfSize(1)*params.rfSize(2));
-%             p_preproc= zcawhitening(p, params);
-%             patches_p= [patches_p; p_preproc];
-%         end
-%         patches_preproc= cat(3, patches_p{1}, patches_p{2}, patches_p{3});
-%         patches_preproc = reshape(patches_preproc, params.npatches, params.rfSize(1)*params.rfSize(2)*params.rfSize(3));
-%         clear patches_p; clear p_preproc; clear patchesRGB;
-%     end
-    
-    %patches_preproc= patches;
-    
+   
 end
