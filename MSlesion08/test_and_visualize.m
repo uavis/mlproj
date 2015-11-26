@@ -1,16 +1,16 @@
 function test_and_visualize(volume_index, params, model, D, scaleparams)
 % Test on a test scan and visualize the segmentation and dictionary
 %% Load a test volume to segment
-test_scan = sprintf('%1$s%2$02d/UNC_train_Case%2$02d_T1_s.nhdr',params.scansdir,volume_index);
+test_scan = sprintf('%1$s%2$02d/UNC_train_Case%2$02d_FLAIR_s.nhdr',params.scansdir,volume_index);
 V = load_mslesion(test_scan);
-mask = sprintf('%1$s%2$02d/UNC_train_Case%2$02d_T1_s_mask.nhdr',params.scansdir,volume_index);
+mask = sprintf('%1$s%2$02d/UNC_train_Case%2$02d_FLAIR_s_mask.nhdr',params.scansdir,volume_index);
 V_mask = load_annotation(mask);
 ant_file = sprintf('%1$s%2$02d/UNC_train_Case%2$02d_lesion.nhdr',params.annotdir,volume_index);
 A = load_annotation(ant_file);
 
 ind = pick_slice_with_lesion(A);
-%slice_index = ind(1);
-slice_list = ind(1:2);
+slice_list = ind;
+%slice_list = ind(1:2);
 
 for i=1:length(slice_list)
     slice_index = slice_list(i);
@@ -30,7 +30,7 @@ for i=1:length(slice_list)
     %% Visualization to show the overlapped region of labels and predictions
     %figure;
     visualize_labels_pred(V, A, preds, volume_index, slice_index);
-    pause;
+    pause(0.2);
 end
 %% Visualize the dictionary
 %figure;

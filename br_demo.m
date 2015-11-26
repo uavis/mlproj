@@ -17,15 +17,15 @@ if exist ('data.mat', 'file')~=2
     tic;
     disp ('extracting features of the test data');
     [X_test, labels_test] = test_data_features(D, params);
-    save('data_train.mat', 'X_train', '-v7.3')
-    save('data_test.mat', 'X_test', '-v7.3')
-    save data.mat D labels_train labels_test params
+    save('data_train5_OMP4.mat', 'X_train', '-v7.3')
+    save('data_test5_OMP4.mat', 'X_test', '-v7.3')
+    save data5_OMP4.mat D labels_train labels_test params
     fprintf('Time Spent on Extractig Features for the test dataset in minutes= %f\n', toc/60);
 else
     addpath(genpath('.')); % need to add it here in case it bypass set_params_buildings
-    load data.mat
-    load data_train.mat
-    load data_test.mat
+    load dataRGB.mat
+    load data_trainRGB.mat
+    load data_testRGB.mat
     params
 end
 
@@ -43,8 +43,8 @@ X_train= [X_train1; X_train2];
 [model, prediction]=classification(labels_train, X_train, labels_test, X_test, params);
 size(X_train, 1)
 disp(sprintf('Time Spent on training the classifier in minutes= %f', toc/60));
-save results.mat prediction;
-save('model.mat', 'model', '-v7.3')
+save results5_OMP4.mat prediction;
+save('model5_OMP4.mat', 'model', '-v7.3')
 
 %Evaluation metrics
 %load resultsOMP_Reg_Dtx_Gry.mat
