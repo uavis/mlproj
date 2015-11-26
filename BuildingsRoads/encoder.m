@@ -2,8 +2,9 @@ function xc = encoder(patches, D, params)
     
     if (strcmp(params.encoder, 'omp'))
         [m, n] = size(patches);
+        omp_k = params.omp_k;
         parfor i=1:m
-            xc(i,:) = ompK(params.omp_k, patches(i,:)', D.codes);
+            xc(i,:) = ompK(omp_k, patches(i,:)', D.codes);
         end
     elseif strcmp(params.encoder, 'dtx')
         xc = patches * D.codes';
@@ -12,7 +13,7 @@ function xc = encoder(patches, D, params)
         %soft thresholding. there are other possibilities to implement it.
         %Eg. put all the negative numbers to zero.
         %xc = sign(xc).*max(abs(xc) - params.alpha, 0);
-        xc = max(xc, 0);
+        xc = max(xc, 0); % Clear all the negative values
     elseif (strcmp(params.encoder, 'sc'))%sparse encoding
         load pars.mat
         xc = sparse_encoding_ML((D.codes)', patches', pars);

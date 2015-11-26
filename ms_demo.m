@@ -11,7 +11,7 @@ if exist ('ms_data.mat', 'file')~=2
     %% Learn features and extract labels
     % D: learned dictionary of filters
     % X: matrix of features for each labelled voxel
-    % labels: 0/1 labels for each datapoint in X
+    % labels: 0/1 labels for each sample in X
     [D, X, labels] = run_mslesion(params);
     % Save results to .mat file
     save ms_data.mat D X labels params

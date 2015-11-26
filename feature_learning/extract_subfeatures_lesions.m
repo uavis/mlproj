@@ -26,19 +26,19 @@ function XC = extract_subfeatures_lesions(X, D, dim, params)
         
         % Remove the patches that are all zero
 %         ind = max(patches) ~= 0;
-%         patches = patches(:, ind)'; % each row is a patch on the original image
+%         patches = patches(:, ind)'; 
 %         f_new = size(patches, 2);
 %         XC = zeros(size(X, 1), f_new);
     
         % Contrast normalization
-        patches = patches';
+        patches = patches'; % each row is a patch on the original image
         patches = bsxfun(@rdivide, bsxfun(@minus, patches, mean(patches,2)), sqrt(var(patches,[],2) + 10));
         
         patches = bsxfun(@minus, patches, D.mean);
         
-        % Activation
-        xc = patches * D.codes'; % # of patches by k(# of features)
-        xc = max(xc, 0); % feature encoder, add soft threshold
+        % Encoding
+        xc = encoder(patches, D, params);
+
         % Save Features
         XC(i,:) = xc(:)';
     end

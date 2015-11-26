@@ -33,6 +33,17 @@ params.npatches = 100000;
 % Number of features per scale. Total # of features: nfeats * numscales
 params.nfeats = 32;
 
+% Dictionary learning algorithm
+params.dictionary_type= 'omp'; % KSVD, omp, sc
+
+% Encoder parameters
+params.encoder = 'softThresh'; % omp, softThresh,sc(sparse coding), dtx is just D'x
+% K for ompK algorithm
+params.omp_k = 4;
+%Threshold alpha for soft thresholding in encoding
+params.alpha = 0.01;
+
+
 % Set data location for MS lesions
 basedir = '/usr/data/medical_images/MSlesion08/';
 % Training data
