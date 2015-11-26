@@ -59,13 +59,13 @@ params.numTrees = 50;
 
 %--------------------------------------------------------------------------
 %Train data directory
-basedir = '/usr/data/BuildingDetectionML/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
+basedir = '/usr/data/roads/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
 params.scansdir = strcat(basedir, 'training/input/');
 params.annotdir = strcat(basedir, 'training/target/');
 params.range = 2;
 %Test data directory
-params.testdatadir = strcat(basedir, 'TestData/');
-params.testgrounddir = strcat(basedir, 'TestDataGroundTruht/');
+params.testdatadir = strcat(basedir, 'test/input/');
+params.testgrounddir = strcat(basedir, 'test/target/');
 
 %--------------------------------------------------------------------------
 params.dictionary_type= 'omp'; % KSVD, omp, sc

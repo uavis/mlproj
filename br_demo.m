@@ -12,14 +12,14 @@ if exist ('data.mat', 'file')~=2
 
     %% Run the code for building and road datasets close allpreprocessing
     [D, X_train, labels_train] = run_buildings(params);
-
+    save('data_train_roads.mat', 'X_train', '-v7.3')
+    
     %% Extractig Features for the test dataset
     tic;
     disp ('extracting features of the test data');
     [X_test, labels_test] = test_data_features(D, params);
-    save('data_train5_OMP4.mat', 'X_train', '-v7.3')
-    save('data_test5_OMP4.mat', 'X_test', '-v7.3')
-    save data5_OMP4.mat D labels_train labels_test params
+    save('data_test_roads.mat', 'X_test', '-v7.3')
+    save data_roads.mat D labels_train labels_test params
     fprintf('Time Spent on Extractig Features for the test dataset in minutes= %f\n', toc/60);
 else
     addpath(genpath('.')); % need to add it here in case it bypass set_params_buildings
@@ -36,15 +36,15 @@ tic;
 % load data.mat
 % load results.mat
 
-X_train1= X_train((labels_train==1), :);
-X_train2= X_train((labels_train==0), :);
-X_train2= X_train2(1:size(X_train1, 1), :);
-X_train= [X_train1; X_train2];
+% X_train1= X_train((labels_train==1), :);
+% X_train2= X_train((labels_train==0), :);
+% X_train2= X_train2(1:size(X_train1, 1), :);
+% X_train= [X_train1; X_train2];
 [model, prediction]=classification(labels_train, X_train, labels_test, X_test, params);
 size(X_train, 1)
 disp(sprintf('Time Spent on training the classifier in minutes= %f', toc/60));
-save results5_OMP4.mat prediction;
-save('model5_OMP4.mat', 'model', '-v7.3')
+save result_roads.mat prediction;
+save('model_roads.mat', 'model', '-v7.3')
 
 %Evaluation metrics
 %load resultsOMP_Reg_Dtx_Gry.mat
