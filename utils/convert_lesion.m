@@ -26,20 +26,10 @@ if isfield(params, 'ratio')
         % Two approaches:
         % 1, Random Search
         % 2, Find the neighbors of the lesions : TODO
-        neg_labels_ind = zeros((ratio-1)*length(row), 1);
-        for j = 1 : (ratio-1) * length(row)
-            not_done = true;
-            while not_done
-                r = random('unid', size_L(1));
-                c = random('unid', size_L(2));
-                % pick a pixel that is brain tissue and has negative label
-                if mask(r, c, i) && ~annotations(r, c, i)
-                    not_done = false;
-                end
-            end
-            neg_labels_ind(j) = sub2ind(size_L(1:2), r, c);
-        end
-        nonlesion_pos{i} = neg_labels_ind;
+        neg_sample = zeros((ratio-1)*length(row),1);
+        neg_sample = choose_neg(ratio-2,1,row,col,size_L,mask,annotations,i);% ratio_r+ratio_n=(ratio-1)
+
+        nonlesion_pos{i} = neg_sample;
     end
     
     m = ratio * total_lesions; % # of training samples
@@ -95,5 +85,69 @@ else
     
 end
 labels = labels + 1; % change to positive labels (0,1) to (1,2) so it works with softmax regression
+end
+
+function [rtemp,ctemp] = neighbor_neg(row_max,row_min,col_max,col_min) % d is the distance from lesion
+
+r = [row_min-1,row_max+1]';
+cl = [col_min:col_max]';
+rtemp = repelem(r,length(cl),1);
+ctemp = repmat(cl,length(r),1);
+c = [col_min-1,col_max+1]';
+rl = [row_min+1:row_max+1]';
+ctemp = [ctemp;repelem(c,length(rl),1)];
+rtemp = [rtemp;repmat(rl,length(c),1)];
+
+end
+
+function random_sample = random_neg(ratio,row,size_L,mask,annotations,i)
+% ratio is the ratio compared to positive samples
+% row is the chosen row of positive samples
+% size_L
+random_sample = zeros(ratio*length(row),1);
+for j = 1 : length(random_sample)
+    not_done = true;
+    
+    while not_done
+        r = random('unid', size_L(1));
+        c = random('unid', size_L(2));
+        % pick a pixel that is brain tissue and has negative label
+        if mask(r, c, i) && ~annotations(r, c, i)
+            not_done = false;
+        end
+    end
+    
+    random_sample(j) = sub2ind(size_L(1:2), r, c);
+end
+
+end
+
+function neg_sample = choose_neg(ratio_r,ratio_n,row,col,size_L,mask,annotations,i)
+% ratio_r is the random sample ratio compared to positive samples
+% ratio_n is the neighbor sample ratio compared to positive samples
+% row and col are vector of positive samples
+random_sample = random_neg(ratio_r,row,size_L,mask,annotations,i);
+
+row_max = max(row);
+row_min = min(row);
+col_max = max(col);
+col_min = min(col);
+neighbor_sample = zeros(ratio_n*length(row),1);
+r = [];
+c = [];
+while length(r) < length(neighbor_sample)
+    [rtemp,ctemp] = neighbor_neg(row_max,row_min,col_max,col_min);
+    r = [r;rtemp];
+    c = [c;ctemp];
+    row_max = row_max+1;
+    row_min = row_min-1;
+    col_max = col_max+1;
+    col_min = col_min-1;
+end
+r = r(1:length(neighbor_sample));
+c = c(1:length(neighbor_sample));
+neighbor_sample = sub2ind(size_L(1:2), r, c);
+ 
+neg_sample = [random_sample;neighbor_sample];
 end
 
