@@ -30,7 +30,15 @@ for i=1:length(B)
     h2 = plot(ground_truth(:,1), ground_truth(:,2), 'r');
 end
 
-legend([h1 h2],{'Ground Truth','Prediction'});
+if ~exist('h1','var') && ~exist('h2','var')
+    % 'No positives', do nothing
+elseif ~exist('h1','var')
+    legend(h2, 'Prediction');
+elseif ~exist('h2','var')
+    legend(h1, 'Ground Truth');
+else
+    legend([h1 h2],{'Ground Truth','Prediction'});
+end
 title(sprintf('Segmentation Result on volume %d, slice %d',vol_index, slice_index));
 hold off
 
