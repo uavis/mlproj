@@ -1,4 +1,4 @@
-function patches = extract_patches(V, params)
+function patches = extract_patches_building(V, params)
 % Take a list of images and return the patches
 %   Parameters:
 %       V:      the list of scaled images
@@ -19,13 +19,13 @@ function patches = extract_patches(V, params)
             patch = double(V{mod(i-1,length(V))+1}); % a scaled image in the pyramid
             patch = squeeze(patch); % remove sington dimensions
         else
-            patchR = double(V{mod(i-1,length(V))+1}); % a scaled image in the pyramid
+            patchR = double(V{mod(i-1,length(V)/params.rfSize(3))+1}); % a scaled image in the pyramid
             patchR = squeeze(patchR); % remove sington dimensions
 
-            patchG = double(V{mod(i+6-1,length(V))+1}); % a scaled image in the pyramid
+            patchG = double(V{mod(i+params.numscales-1,length(V)/params.rfSize(3))+1}); % a scaled image in the pyramid
             patchG = squeeze(patchG); % remove sington dimensions
 
-            patchB = double(V{mod(i+12-1,length(V))+1}); % a scaled image in the pyramid
+            patchB = double(V{mod(i+params.numscales-1,length(V)/params.rfSize(3))+1}); % a scaled image in the pyramid
             patchB = squeeze(patchB); % remove sington dimensions
 
             patch= cat(3, patchR, patchG, patchB);
