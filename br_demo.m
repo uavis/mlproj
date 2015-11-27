@@ -41,7 +41,7 @@ tic;
 % X_train2= X_train2(1:size(X_train1, 1), :);
 % X_train= [X_train1; X_train2];
 [model, prediction]=classification(labels_train, X_train, labels_test, X_test, params);
-size(X_train, 1)
+%size(X_train, 1)
 disp(sprintf('Time Spent on training the classifier in minutes= %f', toc/60));
 save result_roads.mat prediction;
 save('model_roads.mat', 'model', '-v7.3')

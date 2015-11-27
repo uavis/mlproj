@@ -8,7 +8,7 @@ function [model, prediction] = classification (labels_train, X_train, labels_tes
         model = libsvmtrain( labels_train, X_train);
         [prediction, accuracy] = libsvmpredict(labels_test, X_test, model);
     elseif strcmp (params.classifier,'RF')
-        model = TreeBagger(params.numTrees,X_train,labels_train, 'NumPredictorsToSample', 50);
+        model = TreeBagger(params.numTrees,X_train,labels_train, 'Cost', [0 1; 10 0] , 'NumPredictorsToSample', 50);
         [labels, prediction] = predict(model, X_test);
     end
 end

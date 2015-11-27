@@ -13,7 +13,7 @@ function patches = extract_patches_building(V, params)
     % Main loop
     patches = zeros(npatches, rfSize(1) * rfSize(2) * rfSize(3));
     disp('Extracting patches...');
-    
+    nimages= length(V)/ (params.numscales*params.rfSize(3));
     for i=1:npatches
         if(params.rfSize(3)==1)
             patch = double(V{mod(i-1,length(V))+1}); % a scaled image in the pyramid
@@ -23,15 +23,15 @@ function patches = extract_patches_building(V, params)
             patchR = double(V{index}); % a scaled image in the pyramid
             patchR = squeeze(patchR); % remove sington dimensions
 
-            patchG = double(V{index+params.range*params.numscales}); % a scaled image in the pyramid
+            patchG = double(V{index+nimages*params.numscales}); % a scaled image in the pyramid
             patchG = squeeze(patchG); % remove sington dimensions
 
-            patchB = double(V{index+params.range*params.numscales*2}); % a scaled image in the pyramid
+            patchB = double(V{index+nimages*params.numscales*2}); % a scaled image in the pyramid
             patchB = squeeze(patchB); % remove sington dimensions
 
             patch= cat(3, patchR, patchG, patchB);
         end
-        %figure, imshow(uint8(patch));
+        figure, imshow(uint8(patch));
         [nrows, ncols, nmaps] = size(patch);
 
         if (mod(i,10000) == 0) fprintf('Extracting patch: %d / %d\n', i, npatches); end

@@ -24,7 +24,7 @@ params.numscales = 3;
 % Receptive field size e.g. 9x9
 % Assume single modality to simplify
 
-params.rfSize= [5 5 3];
+params.rfSize= [9 9 3];
 
 % size of region?
 params.regSize = [params.upsample(1) + params.rfSize(1) - 1 params.upsample(2) + params.rfSize(2) - 1 1];
@@ -41,7 +41,7 @@ params.nfeats = 32;
 
 %--------------------------------------------------------------------------
 %Type of encoder and parametes 
-params.encoder = 'omp'; % omp, softThresh,sc(sparse coding), dtx is just D'x
+params.encoder = 'dtx'; % omp, softThresh,sc(sparse coding), dtx is just D'x
 
 % K for ompK algorithm
 params.omp_k = 4;
