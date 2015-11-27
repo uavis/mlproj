@@ -10,9 +10,9 @@ function [D,X,labels] = run_mslesion(params)
 disp('Loading and pre-processing data...')
 tic
 if exist ('ms_inter_data.mat', 'file')~=2
-    [patches, V, Vlist, I_mask, A] = preprocess_mslesion(params);
+    [patches, V, I_mask, A] = preprocess_mslesion(params);
     fprintf('Time Spent on Preprocessing in minutes= %f\n', toc/60);
-    save ms_inter_data.mat patches V Vlist I_mask A
+    %save ms_inter_data.mat patches V I_mask A
 else
     disp('Loading from ms_inter_data.mat');
     load ms_inter_data.mat
@@ -36,22 +36,31 @@ tic
 disp('Extracting first module feature maps...')
 if exist ('ms_inter_feature.mat', 'file')~=2
     L = cell(params.ntv, 1);
-    for i = 1:params.ntv
-        % Example of L{i}
-        % K>> size(L{1})
-        % ans =
-        %     60     1
-        % K>> size(L{1}{1})
-        % ans =
-        %    512   512    32
-        % K>> size(L{1}{2})
-        % ans =
-        %    256   256    32
-        L{i} = extract_features_lesions(V{i}(Vlist{i}), D, params);  % Only extract features from slices with meaningful annotations
+    if 1 == params.rfSize(3)
+        % This part is for single modality
+        for i = 1:params.ntv
+            % Example of L{i}
+            % K>> size(L{1})
+            % ans =
+            %     60     1
+            % K>> size(L{1}{1})
+            % ans =
+            %    512   512    32
+            % K>> size(L{1}{2})
+            % ans =
+            %    256   256    32
+            L{i} = extract_features_lesions(V{i}, D, params);  % Only extract features from slices with meaningful annotations
+        end
+    else
+        % This part is for multi-modality
+        for i = 1:params.ntv
+            L{i}= extract_features_modalities(V{i}, D, params);
+        end
     end
+
     clear V;
     fprintf('Time Spent on Encoding in minutes= %f\n', toc/60);
-    save ms_inter_feature.mat L -v7.3
+    %save ms_inter_feature.mat L -v7.3
 else
     disp('Loading from ms_inter_feature.mat');
     load ms_inter_feature.mat
@@ -75,7 +84,7 @@ if exist ('ms_inter_up_feature.mat', 'file')~=2
         L{i} = upsample(L{i}, params.numscales, params.upsample);
     end
     fprintf('Time Spent on upsampling in minutes= %f\n', toc/60);
-    save ms_inter_up_feature.mat L -v7.3
+    %save ms_inter_up_feature.mat L -v7.3
 else
     disp('Loading from ms_inter_up_feature.mat');
     load ms_inter_up_feature.mat
@@ -87,8 +96,8 @@ disp('Computing pixel-level features...')
 X = []; labels = [];
 for i = 1:params.ntv
     % Need to pass in the Image data, only convert the brain tissue
-    slice_ind = Vlist{i}(params.numscales:params.numscales:end)/params.numscales;
-    [tmp_feature, tmp_label] = convert_lesion(L{i}, I_mask{i}(:,:,slice_ind), A{i}(:,:,slice_ind), slice_ind, params);
+    %slice_ind = Vlist{i}(params.numscales:params.numscales:end)/params.numscales;
+    [tmp_feature, tmp_label] = convert_lesion(L{i}, I_mask{i}, A{i}, params);
     % Debug *********************
     %plot(1:length(tl), tl);
     %axis([0 length(tl) 0 3]);

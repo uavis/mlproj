@@ -1,14 +1,14 @@
-function [X, labels] = convert_lesion(L, mask, annotations, imageidx, params)
+function [X, labels] = convert_lesion(L, mask, annotations, params)
 % Take features and labels from each voxel on every slice in imageidx
 % Parameters:
 %           L:  Feature maps that are grouped based on images
 %           mask: the mask for the brain tissues
 %           annotations: annotations
-%           imageidx: indexes of the slices that contain annotations
 % Returns:
 %           X:  features
 %           labels: labels
 size_L = size(L{1}); % 512 x 512 x 192
+imageidx = size(L,1); %  indexes of the slices that contain annotations
 if isfield(params, 'ratio')
     % We're undersampling the training data
     ratio = params.ratio;

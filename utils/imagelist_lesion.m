@@ -1,13 +1,13 @@
-function imlist = imagelist_lesion(annotations, numscales)
+function im_idx = imagelist_lesion(annotations, params)
 % Keep it here for compatibility
 % Take a list of annotations and return the z indexes of a selected list of slices
 % Parameters:
 %               annotations: annotations in 3D matrix
-%               numscales:   number of scale of gaussian pyramid
+%               params: hyper parameters
 % Returns:
-%               imlist:      a list of scaled slices with annotations
+%               im_idx:      a list of scaled slices with annotations
 
- num_slices = size(annotations,3);
-%num_slices = 10;
+%num_slices = size(annotations,3);
+num_slices = 10;
 % Save the slices in different scales
-imlist = 1:numscales * num_slices;
+im_idx = 1:params.numscales * num_slices * params.rfSize(3);
