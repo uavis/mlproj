@@ -1,4 +1,4 @@
-function [patches_preproc, images, labels] = preprocess(params, imagedir, labeldir,range)
+function [patches_preproc, images, labels] = preprocess(params, imagedir, labeldir,range, testing)
     %%Loading Images
     imagefiles = dir(strcat(imagedir,'*.tiff'));     
     labelfiles = dir(strcat(labeldir,'*.tif'));
@@ -20,12 +20,13 @@ function [patches_preproc, images, labels] = preprocess(params, imagedir, labeld
         currentlabelname = labelfiles(i).name;
         currentlabel = imread(strcat(labeldir, currentlabelname));
         
-        labels(:,:,i) =double (currentlabel(:,:,1) > 0);
+        
         if(params.rfSize(3)==1)
             currentimage = rgb2gray(imread(strcat(imagedir, currentfilename)));
         else
             currentimage = imread(strcat(imagedir, currentfilename));
         end
+        labels(:,:,i) =double (currentlabel(:,:,1) > 0);
         
         % Gaussian Pyramid of the image, saved in a vector
         % V{i} is a cell array each of which is a scaled image in the pyramid
@@ -33,9 +34,6 @@ function [patches_preproc, images, labels] = preprocess(params, imagedir, labeld
         Vs= [Vs; pyr]; 
         
         if(params.rfSize(3)>1)
-%             VsR = [VsR; pyr(1:6, :)];
-%             VsG = [VsG; pyr(7:12, :)];
-%             VsB = [VsB; pyr(13:end, :)];
             VsR = [VsR; pyr(1:params.numscales, :)];
             VsG = [VsG; pyr(params.numscales+1:params.numscales*2, :)];
             VsB = [VsB; pyr(params.numscales*2+1:end, :)];
@@ -55,14 +53,13 @@ function [patches_preproc, images, labels] = preprocess(params, imagedir, labeld
     clear Vs;
 
    % Extract Patches from the Gaussian Pyramid
-   patches = extract_patches_building(images, params);
+   if testing==0
+     patches = extract_patches_building(images, params);
+     patches_preproc= zcawhitening(patches, params);
+   else
+       patches_preproc= [];
+   end
    
-   %save patches.mat patches
-   % load patchesRGB.mat
     
-    
-    % Apply ZCA Whitening
-     %if(params.rfSize(3)==1)
-    patches_preproc= zcawhitening(patches, params);
    
 end

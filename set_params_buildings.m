@@ -19,7 +19,7 @@ params.D_iter = 100;
 params.upsample = [1500 1500];
 
 % Number of scales
-params.numscales = 3;
+params.numscales = 1;
 
 % Receptive field size e.g. 9x9
 % Assume single modality to simplify
@@ -56,16 +56,18 @@ params.alpha = 0.01;
 params.classifier = 'RF'; % logistic_reg, svm, RF
 %number of trees if RF is being used 
 params.numTrees = 50; 
+params.cost= [0 1; 1 0];
+params.npredictors= 50;
 
 %--------------------------------------------------------------------------
 %Train data directory
-basedir = '/usr/data/roads/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
+basedir = '/usr/data/BuildingDetectionML/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
 params.scansdir = strcat(basedir, 'training/input/');
 params.annotdir = strcat(basedir, 'training/target/');
 params.range = 2;
 %Test data directory
-params.testdatadir = strcat(basedir, 'test/input/');
-params.testgrounddir = strcat(basedir, 'test/target/');
+params.testdatadir = strcat(basedir, 'TestData/');
+params.testgrounddir = strcat(basedir, 'TestDataGroundTruht/');
 
 %--------------------------------------------------------------------------
 params.dictionary_type= 'omp'; % KSVD, omp, sc

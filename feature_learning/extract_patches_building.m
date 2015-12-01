@@ -31,7 +31,7 @@ function patches = extract_patches_building(V, params)
 
             patch= cat(3, patchR, patchG, patchB);
         end
-        figure, imshow(uint8(patch));
+        %figure, imshow(uint8(patch));
         [nrows, ncols, nmaps] = size(patch);
 
         if (mod(i,10000) == 0) fprintf('Extracting patch: %d / %d\n', i, npatches); end

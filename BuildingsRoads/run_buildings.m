@@ -5,7 +5,7 @@ function [D,X,labels] = run_buildings(params)
     %patches: number_of_patches by patch_width*patch_height. Preporcessed.
     tic;
     disp('Loading and pre-processing data...')
-    [patches, images, labels] = preprocess(params, params.scansdir, params.annotdir, params.range);
+    [patches, images, labels] = preprocess(params, params.scansdir, params.annotdir, params.range, 0);
     disp(sprintf('Time Spent on Preprocessing in minutes= %f', toc/60));
     
     %% Train dictionary
