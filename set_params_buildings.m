@@ -9,7 +9,7 @@ addpath(genpath('.'))
 
 %% Set up parameters
 % Do not change
-params.layer = 1;
+params.layer = 2;
 params.alpha = 0;
 params.D_iter = 100;
 
@@ -24,7 +24,7 @@ params.numscales = 1;
 % Receptive field size e.g. 9x9
 % Assume single modality to simplify
 
-params.rfSize= [9 9 3];
+params.rfSize= [5 5 3];
 
 % size of region?
 params.regSize = [params.upsample(1) + params.rfSize(1) - 1 params.upsample(2) + params.rfSize(2) - 1 1];
@@ -65,6 +65,7 @@ basedir = '/usr/data/BuildingDetectionML/';%'/home/mennatullah/Datasets/Building
 params.scansdir = strcat(basedir, 'training/input/');
 params.annotdir = strcat(basedir, 'training/target/');
 params.range = 2;
+params.test_range = 1;
 %Test data directory
 params.testdatadir = strcat(basedir, 'TestData/');
 params.testgrounddir = strcat(basedir, 'TestDataGroundTruht/');

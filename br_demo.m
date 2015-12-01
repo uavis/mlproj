@@ -19,6 +19,11 @@ if exist ('data.mat', 'file')~=2
     %save('data_test_.mat', 'X_test', '-v7.3')
     %save data6Scales.mat D labels_train labels_test params
     fprintf('Time Spent on Extractig Features for the test dataset in minutes= %f\n', toc/60);
+    
+    %second layer
+    if (params.layer == 2)
+        [D, X_train, X_test] = second_layer(X_train, X_test,params);
+    end
 else
     addpath(genpath('.')); % need to add it here in case it bypass set_params_buildings
     %addpath /usr/work/ml_proj/GML_AdaBoost_Matlab_Toolbox_0.3/
