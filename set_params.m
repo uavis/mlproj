@@ -43,6 +43,12 @@ params.omp_k = 4;
 %Threshold alpha for soft thresholding in encoding
 params.alpha = 0.01;
 
+%Type of the classifier
+params.classifier = 'LR'; % LR(logistic_reg), svm, RF
+%number of trees if RF is being used 
+params.numTrees = 50; 
+% Number of CV folds
+params.n_folds = 10;
 
 % Set data location for MS lesions
 basedir = '/usr/data/medical_images/MSlesion08/';

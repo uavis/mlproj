@@ -26,11 +26,10 @@ tic;
 %% Train a classifier on X
 % Logistic regression
 % Applies n_folds cross validation
-% model: the resulting model
+% model: the resulting model (theta's)
 % scaleparams: means and stds of X
 if exist ('ms_classifier.mat', 'file')~=2
-    n_folds = 10;
-    [model, scaleparams] = learn_classifier(X, labels, n_folds);
+    [model, scaleparams] = classifier_learner(X, labels, params);
     save ms_classifier.mat model scaleparams -v7.3
 else
     disp('Loading from ms_classifier.mat');

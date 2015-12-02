@@ -81,7 +81,7 @@ if exist ('ms_inter_up_feature.mat', 'file')~=2
         %         K>> size(L{1}{2})
         %         ans =
         %         512   512   192
-        L{i} = upsample(L{i}, params.numscales, params.upsample);
+        L{i} = upsample_light(L{i}, params.numscales, params.upsample);
     end
     fprintf('Time Spent on upsampling in minutes= %f\n', toc/60);
     %save ms_inter_up_feature.mat L -v7.3

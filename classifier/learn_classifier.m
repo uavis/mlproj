@@ -1,9 +1,11 @@
 function [model, scaleparams] = learn_classifier(X, labels, numfolds)
+% Logistic(softmax) regression
+% Applies numfolds cross validation
 
     % Values to search over
     % This is going to be used as the regularization rate
     vals = 2.^[-10:10];
-    
+
     % First permute the data
     indperm = randperm(size(X, 1));
     X = X(indperm,:);
@@ -20,7 +22,7 @@ function [model, scaleparams] = learn_classifier(X, labels, numfolds)
     [X, scaleparams] = standard(X);
     scaleparams.optval = optval;
     model = softmax_regression(X, labels, 2, optval);
-    
+
     % cross validation accuracy
 %     disp('Computing cross validation accuracy...')
 %     [cvAcc] = accuracy_CV(X, labels, vals, numfolds);

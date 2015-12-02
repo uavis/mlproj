@@ -49,12 +49,11 @@ if isfield(params, 'ratio')
     last_ind = 0;
     for i = 1:length(imageidx)
         % Get the label
-        %labels((i-1)*voxels+1:i*voxels) = reshape(annotations(:,:,imageidx(i))+1, [voxels 1]);% label+1 to make all labels positive for softmax regression
-        
         pos_row = length(lesion_pos{i});
         tmp = annotations(:, :, i);
         labels(last_ind + 1: last_ind + pos_row) = tmp(lesion_pos{i});
         labels(last_ind + pos_row + 1: last_ind + ratio*pos_row) = tmp(nonlesion_pos{i});
+        % Get the features
         for j = 1:size_L(3)
             q = L{i}(:, :, j); % 512*512
             X(last_ind + 1: last_ind + pos_row, j) = q(lesion_pos{i})';
@@ -62,10 +61,6 @@ if isfield(params, 'ratio')
         end
         % update the index
         last_ind = last_ind + ratio * pos_row;
-        
-        % Get the features
-        %q = L{i}; % 512*512*192
-        %X( (i-1)*voxels+1:i*voxels, : ) = reshape(q, [voxels size_L(3)]);
     end
 
 else
@@ -92,7 +87,6 @@ else
         end
         last_ind = last_ind + voxels;
     end
-    
 end
 labels = labels + 1; % change to positive labels (0,1) to (1,2) so it works with softmax regression
 end
