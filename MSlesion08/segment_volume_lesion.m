@@ -15,7 +15,7 @@ for i = 1:ntv
         L = extract_features_lesions(V{i}, D, params);
     else
         % This part is for multi-modality
-        L= extract_features_modalities(V{i}, D, params);
+        L= extract_features_modalities_lesion(V{i}, D, params);
     end
     
     % Upsample
@@ -24,11 +24,12 @@ for i = 1:ntv
     preds = false([params.upsample length(L)]); % predictions in 3D volume  
     for slice_index = 1:length(L)
         % Label each pixel
-        p = annotate(L{slice_index}, model, mask{i}{slice_index}, scaleparams);
+        p = annotate(L{slice_index}, model, mask{i}(:,:,3*(slice_index-1)+1), scaleparams);
         preds(:,:,slice_index) = p>0.5;
     end
     
     yhat = [yhat; preds(:)];
 end
+yhat = logical(yhat);
 
 end

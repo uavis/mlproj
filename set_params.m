@@ -10,7 +10,7 @@ addpath(genpath('.'))
 %% Set up parameters
 % Do not change
 params.layer = 1;
-params.alpha = 0;
+%params.alpha = 0;
 params.D_iter = 50;
 % -------------
 

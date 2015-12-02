@@ -54,7 +54,7 @@ if exist ('ms_inter_feature.mat', 'file')~=2
     else
         % This part is for multi-modality
         for i = 1:params.ntv
-            L{i}= extract_features_modalities(V{i}, D, params);
+            L{i}= extract_features_modalities_lesion(V{i}, D, params);
         end
     end
 

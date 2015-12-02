@@ -60,14 +60,14 @@ function patches = extract_patches_lesion(V, params, A)
             patch = double(V{mod(i-1,length(V))+1}); % a scaled image in the pyramid
             patch = squeeze(patch); % remove sington dimensions
         else
-            patchT1 = double(V1{mod(i-1,length(V1))+1}); % a scaled image in the pyramid
-            patchT1 = squeeze(patchT1); % remove sington dimensions
+            patchMod1 = double(V1{mod(i-1,length(V1))+1}); % a scaled image in the pyramid
+            patchMod1 = squeeze(patchMod1); % remove sington dimensions
 
-            patchT2 = double(V2{mod(i-1,length(V2))+1}); % a scaled image in the pyramid
-            patchT2 = squeeze(patchT2); % remove sington dimensions
+            patchMod2 = double(V2{mod(i-1,length(V2))+1}); % a scaled image in the pyramid
+            patchMod2 = squeeze(patchMod2); % remove sington dimensions
 
-            patchFLAIR = double(V3{mod(i-1,length(V3))+1}); % a scaled image in the pyramid
-            patchFLAIR = squeeze(patchFLAIR); % remove sington dimensions
+            patchMod3 = double(V3{mod(i-1,length(V3))+1}); % a scaled image in the pyramid
+            patchMod3 = squeeze(patchMod3); % remove sington dimensions
 
 %             if 1 == i
 %                 subplot(3,1,1);
@@ -83,7 +83,7 @@ function patches = extract_patches_lesion(V, params, A)
 %                 title(sprintf('patch %d FLAIR', i));
 %                 pause;
 %             end
-            patch= cat(3, patchT1, patchT2, patchFLAIR);
+            patch= cat(3, patchMod1, patchMod2, patchMod3);
         end
         
         
@@ -96,7 +96,7 @@ function patches = extract_patches_lesion(V, params, A)
         while not_done
             r = random('unid', nrows - rfSize(1) + 1);
             c = random('unid', ncols - rfSize(2) + 1);
-            if logical(patch(r, c, 1)) % only keep the non-zero pixels, one modality is enough
+            if all(patch(r,c,:)) % only keep the pixel that are zero on all modalities 
                 not_done = false;
             end
         end

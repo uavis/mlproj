@@ -16,7 +16,7 @@ Vs = [];            % a cell array of all images from all volumes
 Vs_mod1 = [];       % for T1
 Vs_mod2 = [];       % for T2
 Vs_mod3 = [];       % a cell array of all images from all FLAIR volumes
-if params.rfSize(3) > 1
+if params.rfSize(3) > 1 % rfSize(3) determines whether to use multi-modality
     modality_str = {'T1','T2','FLAIR'};
 else
     modality_str = {'FLAIR'};
@@ -69,7 +69,7 @@ end
 if 3 == params.rfSize(3)
     Vs = [Vs_mod1; Vs_mod2; Vs_mod3];
 end
-fprintf('How many images do we have: %d\n',length(Vs));
+fprintf('The number of scaled images for extracting patches: %d\n',length(Vs));
 % Extract patches
 patches = extract_patches_lesion(Vs, params, A_py);
 
