@@ -1,5 +1,8 @@
 function [new_D, new_X_train, new_X_test] = second_layer(X_train, X_test, params)
     disp('---------------------Starting the Second Layer-----------------');
+    original_scale = params.numscales;
+    params.numscales = 1;
+    
     VsR = [];
     VsG = [];
     VsB = [];
@@ -118,5 +121,6 @@ function [new_D, new_X_train, new_X_test] = second_layer(X_train, X_test, params
     end
         
     new_D = D;
-
+    
+    params.numscales = original_scale;    
 end
