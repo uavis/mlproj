@@ -9,7 +9,7 @@ addpath(genpath('.'))
 
 %% Set up parameters
 % Do not change
-params.layer = 2;
+params.layer = 1;
 params.alpha = 0;
 params.D_iter = 100;
 
@@ -19,12 +19,12 @@ params.D_iter = 100;
 params.upsample = [1500 1500];
 
 % Number of scales
-params.numscales = 1;
+params.numscales = 3;
 
 % Receptive field size e.g. 9x9
 % Assume single modality to simplify
 
-params.rfSize= [5 5 3];
+params.rfSize= [9 9 3];
 
 % size of region?
 params.regSize = [params.upsample(1) + params.rfSize(1) - 1 params.upsample(2) + params.rfSize(2) - 1 1];
@@ -56,15 +56,15 @@ params.alpha = 0.01;
 params.classifier = 'RF'; % logistic_reg, svm, RF
 %number of trees if RF is being used 
 params.numTrees = 50; 
-params.cost= [0 1; 1 0];
+params.cost= [0 1; 10 0];
 params.npredictors= 50;
 
 %--------------------------------------------------------------------------
 %Train data directory
-basedir = '/usr/data/BuildingDetectionML/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
+basedir = '~/BuildingDetectionML/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
 params.scansdir = strcat(basedir, 'training/input/');
 params.annotdir = strcat(basedir, 'training/target/');
-params.range = 2;
+params.range = 1;
 params.test_range = 1;
 %Test data directory
 params.testdatadir = strcat(basedir, 'TestData/');
