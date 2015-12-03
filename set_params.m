@@ -30,10 +30,10 @@ params.ratio = 3;
 % Number of patches to train dictionary
 params.npatches = 100000;
 % Number of slices
-%params.num_slices = 10;
+params.num_slices = 10;
 
 % Number of features per scale. Total # of features: nfeats * numscales
-params.nfeats = 32;
+params.nfeats = 64;
 
 % Dictionary learning algorithm
 params.dictionary_type= 'omp'; % KSVD, omp, sc
@@ -46,11 +46,13 @@ params.omp_k = 4;
 params.alpha = 0.01;
 
 %Type of the classifier
-params.classifier = 'RF'; % LR(logistic_reg), svm, RF
+params.classifier = 'svm'; % LR(logistic_reg), svm, RF
 %number of trees if RF is being used 
 params.numTrees = 50; 
 % Number of CV folds
 params.n_folds = 10;
+params.cost= [0 2; 1 0];
+params.npredictors= 50;
 
 % Set data location for MS lesions
 basedir = '/usr/data/medical_images/MSlesion08/';

@@ -19,20 +19,21 @@ function yhat = segment_slice_lesions(im, mask, model, D, params, scaleparams)
     end
 
     % Upsample
-    disp('upsampling...')
+    disp('Upsampling...')
     L = upsample_light(L, params.numscales, up);
 
     % Label each pixel
-    disp('making prediction...')
+    disp('Making prediction...')
     X_test = L{1};
     %X_test = cat(3,L{1}); % not sure what it does
     if strcmp (params.classifier,'LR')
         yhat = annotate(X_test, model, mask, scaleparams);
     elseif strcmp (params.classifier,'svm')
-        yhat = libsvmpredict(ones(size(X_test,1),1), X_test, model);
+        yhat = libsvmpredict(ones(size(X_test,1)*size(X_test,2),1), reshape(X_test, size(X_test,1)*size(X_test,2), size(X_test,3)), model);
     elseif strcmp (params.classifier,'RF')
         [~, yhat] = predict(model, reshape(X_test, size(X_test,1)*size(X_test,2), size(X_test,3)));
         yhat = yhat(:, 2);
     end
 
+    % Visualize
     %visualize_labels_pred_slice(original_im, yhat);
