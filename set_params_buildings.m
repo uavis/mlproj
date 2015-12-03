@@ -9,7 +9,7 @@ addpath(genpath('.'))
 
 %% Set up parameters
 % Do not change
-params.layer = 1;
+params.layer = 2;
 params.alpha = 0;
 params.D_iter = 100;
 
@@ -56,15 +56,15 @@ params.alpha = 0.01;
 params.classifier = 'RF'; % logistic_reg, svm, RF
 %number of trees if RF is being used 
 params.numTrees = 50; 
-params.cost= [0 1; 10 0];
+params.cost= [0 1; 1 0];
 params.npredictors= 50;
 
 %--------------------------------------------------------------------------
 %Train data directory
-basedir = '~/BuildingDetectionML/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
+basedir = '/usr/data/BuildingDetectionML/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
 params.scansdir = strcat(basedir, 'training/input/');
 params.annotdir = strcat(basedir, 'training/target/');
-params.range = 1;
+params.range = 2;
 params.test_range = 1;
 %Test data directory
 params.testdatadir = strcat(basedir, 'TestData/');
