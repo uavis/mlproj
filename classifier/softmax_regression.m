@@ -1,9 +1,10 @@
 function theta = softmax_regression(train, train_L, k, lambda)
 % lambda: regularization parameter
+% k: the number of classes
 
    % initialize parameters
    train = train';
-   [n,m] = size(train);
+   [n,m] = size(train); % n: # of features, m: # of samples
    theta = 0.005 * randn(k * n, 1);
 
    % run optimization

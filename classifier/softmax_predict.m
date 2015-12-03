@@ -1,4 +1,4 @@
-function [yhat, M] = predict(theta, test)
+function [yhat, M] = softmax_predict(theta, test)
 
     test = test';
 

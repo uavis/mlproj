@@ -12,7 +12,7 @@ tic
 if exist ('ms_inter_data.mat', 'file')~=2
     [patches, V, I_mask, A] = preprocess_mslesion(params);
     fprintf('Time Spent on Preprocessing in minutes= %f\n', toc/60);
-    %save ms_inter_data.mat patches V I_mask A
+    save ms_inter_data.mat patches V I_mask A
 else
     disp('Loading from ms_inter_data.mat');
     load ms_inter_data.mat
@@ -60,7 +60,7 @@ if exist ('ms_inter_feature.mat', 'file')~=2
 
     clear V;
     fprintf('Time Spent on Encoding in minutes= %f\n', toc/60);
-    %save ms_inter_feature.mat L -v7.3
+    save ms_inter_feature.mat L -v7.3
 else
     disp('Loading from ms_inter_feature.mat');
     load ms_inter_feature.mat
@@ -84,7 +84,7 @@ if exist ('ms_inter_up_feature.mat', 'file')~=2
         L{i} = upsample_light(L{i}, params.numscales, params.upsample);
     end
     fprintf('Time Spent on upsampling in minutes= %f\n', toc/60);
-    %save ms_inter_up_feature.mat L -v7.3
+    save ms_inter_up_feature.mat L -v7.3
 else
     disp('Loading from ms_inter_up_feature.mat');
     load ms_inter_up_feature.mat

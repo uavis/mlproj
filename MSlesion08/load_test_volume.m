@@ -1,11 +1,15 @@
-function [gt,V,I_mask] = load_test_volume(params)
+function [gt,V_mod,V_mask] = load_test_volume(params)
+% output: gt: ground truth labels
+%         V_mod: V_mod{i} is test volume i
+%         I_mask: mask for all volumes, I_mask{i} is the mask for volume i (may include three modalities)
 ntv = length(params.test_vol);
-V = cell(ntv, 1);   % volumes
+V_mod = cell(ntv, 1);   % volumes
 A = cell(ntv, 1);   % annotation
 idx = cell(ntv, 1);
 gt = [];
-I_mask = cell(ntv, 1);% hold mask from multi-modalities
-if params.rfSize(3) > 1
+V_mask = cell(ntv, 1);% hold mask from multi-modalities
+num_mod = params.rfSize(3);
+if num_mod > 1
     modality_str = {'FLAIR','T1','T2'};
 else
     modality_str = {'FLAIR'};
@@ -24,21 +28,30 @@ for i = 1:ntv
     A{i} = A{i}(:,:,idx{i}); % only keep slices that contain lesions
     gt = [gt; A{i}(:)];
     I_mod = []; % hold scan from multi-modalities
-    for j = 1:length(modality_str)
+    I_mask = [];
+    for j = 1:num_mod
         % I is a 3D volume of the scan
         test_scan = sprintf('%1$s%2$02d/UNC_train_Case%2$02d_%3$s_s.nhdr',params.scansdir,i,modality_str{j});
         I = load_mslesion(test_scan);
         % I_mask is the brain mask for the scan
-        mask = sprintf('%1$s%2$02d/UNC_train_Case%2$02d_%3$s_s_mask.nhdr',params.scansdir,i,modality_str{j});     
+        mask = sprintf('%1$s%2$02d/UNC_train_Case%2$02d_%3$s_s_mask.nhdr',params.scansdir,i,modality_str{j});
         I_one_mask = load_annotation(mask);
-        I_mask{i} = cat(3, I_mask{i}, I_one_mask(:,:,idx{i}));
+        I_mask = cat(3, I_mask, I_one_mask(:,:,idx{i}));
         % Make the non brain tissue zero
         I = I(:,:,idx{i}).*I_one_mask(:,:,idx{i});
         I_mod = cat(3, I_mod, I);
     end
+    if 3 == num_mod
+        len_idx = length(idx{i});
+        % Combine the mask of three modalities into one
+        V_mask{i} = I_mask(:,:,1:len_idx).*I_mask(:,:,len_idx+1:2*len_idx).*I_mask(:,:,2*len_idx+1:end);
+    else
+        V_mask{i} = I_mask;
+    end
+    V_mod{i} = I_mod;
     % Gaussian Pyramid of the images in volume i, saved in a vector
     % V{i} is a cell array each of which is a scaled image in the pyramid
-    V{i} = pyramid(I_mod, params);
+    %V{i} = pyramid(I_mod, params);
 end
 gt = logical(gt);
 

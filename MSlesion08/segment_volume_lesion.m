@@ -1,15 +1,15 @@
-function yhat = segment_volume_lesion(V, mask, model, D, params, scaleparams)
+function yhat = segment_volume_lesion(V, V_mask, model, D, params, scaleparams)
 ntv = size(V,1);
-%preds = cell(ntv,1);
-%L = cell(ntv,1);
 yhat = [];
-disp('Extracting first module feature maps...')
-%false(size(V)); % predictions in 3D volume
 for i = 1:ntv
+    fprintf('Processing volume %d\n', i);
+    % Gaussian Pyramid
+    up = [size(V{i}{1}, 1) size(V{i}{1}, 2)];
+    im = pyramid(im, params);
 
     % Extract first module feature maps
     fprintf('.');
-    
+
     if 1 == params.rfSize(3)
         % This part is for single modality
         L = extract_features_lesions(V{i}, D, params);
@@ -19,7 +19,7 @@ for i = 1:ntv
     end
     
     % Upsample
-    L = upsample(L, params.numscales, params.upsample);
+    L = upsample_light(L, params.numscales, params.upsample);
     
     preds = false([params.upsample length(L)]); % predictions in 3D volume  
     for slice_index = 1:length(L)

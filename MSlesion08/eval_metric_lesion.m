@@ -1,8 +1,4 @@
-function stats = eval_metric_lesion(model, scaleparams, D, params)
-%% Load test volumes
-[A,V,V_mask] = load_test_volume(params);
-%% Segment all slices of V
-preds = segment_volume_lesion(V, V_mask, model, D, params, scaleparams);
+function stats = eval_metric_lesion(A, preds)
 %% Compute metrics
 % The value of pos or neg labels
 label_p = 1;

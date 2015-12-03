@@ -21,7 +21,7 @@ for i = 1:length(vals)
         % use the scaling parameters from the training set
         testSet = standard(testSet, scaleparams); 
         theta = softmax_regression(trainSet, labelsTrain, 2, val);
-        [~, M] = predict(theta, testSet);
+        [~, M] = softmax_predict(theta, testSet);
         yhat = (M(2,:) >= 0.5)' + 1;
         
         accfold(j) = mean(yhat == labelsTest);

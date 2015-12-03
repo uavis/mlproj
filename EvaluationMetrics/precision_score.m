@@ -4,6 +4,11 @@ function [precision] = precision_score(y_true, y_pred, label_p, label_n)
 
 tp = sum( (y_true == y_pred) & (y_true == label_p) );
 fp = sum( (y_true ~= y_pred) & (y_pred == label_p) );
-precision = tp/(tp+fp);
+
+if tp || fp
+    precision = tp/(tp+fp);
+else
+    precision = 0;
+end
 
 end

@@ -15,7 +15,7 @@ slice_list = ind;
 for i=1:length(slice_list)
     slice_index = slice_list(i);
     %% Compute a segmentation on a slice of V
-    preds = segment_lesions(V(:,:,slice_index), V_mask(:,:,slice_index), model, D, params, scaleparams);
+    preds = segment_slice_lesions(V(:,:,slice_index), V_mask(:,:,slice_index), model, D, params, scaleparams);
     
     %% Visualize the result
     % visualize_segment(V(:,:,slice_index), preds>0.5);

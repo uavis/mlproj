@@ -4,6 +4,10 @@ function [recall] = recall_score(y_true, y_pred, label_p, label_n)
 tp = sum( (y_true == y_pred) & (y_true == label_p) );
 fn = sum( (y_true ~= y_pred) & (y_pred == label_n) );
 
-recall = tp/(tp+fn);
+if tp || fn
+    recall = tp/(tp+fn);
+else
+    recall = 0;
+end
 
 end

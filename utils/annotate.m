@@ -6,7 +6,7 @@ function yhat = annotate(image, model, mask, scaleparams)
     image = reshape(image, m * n, p);
     image = standard(image, scaleparams);
     
-    [yhat, M] = predict(model, image);
+    [yhat, M] = softmax_predict(model, image);
     yhat = reshape(M(2,:), m, n, 1);
     
 end

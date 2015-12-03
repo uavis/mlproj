@@ -24,24 +24,25 @@ end
 % measure time
 tic;
 %% Train a classifier on X
-% Logistic regression
-% Applies n_folds cross validation
 % model: the resulting model (theta's)
-% scaleparams: means and stds of X
+% scaleparams: means and stds of X for feature standardization
 if exist ('ms_classifier.mat', 'file')~=2
     [model, scaleparams] = classifier_learner(X, labels, params);
     save ms_classifier.mat model scaleparams -v7.3
+    % Release memory
+    clear X labels
 else
     disp('Loading from ms_classifier.mat');
     load ms_classifier
 end
-
 % Gather time
 fprintf('Time Spent on classification in minutes= %f\n', toc/60);
 
 %% Getting evaluation metrics
 tic;
-eval_stats = eval_metric_lesion(model, scaleparams, D, params);
+%% Load the test data and make prediction
+[annotation, pred] = load_and_predict(model, D, params, scaleparams);
+eval_stats = eval_metric_lesion(annotation, pred);
 fprintf('Time Spent on evaluation stats in minutes= %f\n', toc/60);
 
 %% Testing and visulization

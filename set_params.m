@@ -18,7 +18,7 @@ params.D_iter = 50;
 params.upsample = [512 512];
 
 % Number of scales
-params.numscales = 6;
+params.numscales = 3;
 
 % Receptive field size e.g. 5x5
 % Assume single modality to simplify
@@ -29,6 +29,8 @@ params.regSize = [params.upsample(1) + params.rfSize(1) - 1 params.upsample(2) +
 params.ratio = 3;
 % Number of patches to train dictionary
 params.npatches = 100000;
+% Number of slices
+%params.num_slices = 10;
 
 % Number of features per scale. Total # of features: nfeats * numscales
 params.nfeats = 32;
@@ -37,14 +39,14 @@ params.nfeats = 32;
 params.dictionary_type= 'omp'; % KSVD, omp, sc
 
 % Encoder parameters
-params.encoder = 'dtx'; % omp, softThresh,sc(sparse coding), dtx is just D'x
+params.encoder = 'softThresh'; % omp, softThresh,sc(sparse coding), dtx is just D'x
 % K for ompK algorithm
 params.omp_k = 4;
 %Threshold alpha for soft thresholding in encoding
 params.alpha = 0.01;
 
 %Type of the classifier
-params.classifier = 'LR'; % LR(logistic_reg), svm, RF
+params.classifier = 'RF'; % LR(logistic_reg), svm, RF
 %number of trees if RF is being used 
 params.numTrees = 50; 
 % Number of CV folds
@@ -58,7 +60,7 @@ params.annotdir = strcat(basedir, 'skull_stripped_UNC_train_Case');
 % Test data
 %params.testdatadir = strcat(basedir, 'skull_stripped_UNC_test_Case');
 % Number of volumes to load
-params.ntv = 2;
+params.ntv = 1;
 % Test volume index
 params.test_vol = 10;
 %%%%%%%%%%%%%%%%%%%

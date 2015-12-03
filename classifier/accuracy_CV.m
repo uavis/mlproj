@@ -11,7 +11,7 @@ for i = 1:K
     [trainSet, testSet, labelsTrain, labelsTest] = generateSets(X, Y, folds, i);
     [optval, acc] = xval(trainSet, labelsTrain, vals, K)
     theta = softmax_regression(trainSet, labelsTrain, 2, optval);
-    [~, M] = predict(theta, testSet);
+    [~, M] = softmax_predict(theta, testSet);
     yhat = (M(2,:) >= 0.5)' + 1;
     cv_acc(i) = mean(yhat == labelsTest);    
 end

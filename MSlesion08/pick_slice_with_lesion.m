@@ -20,8 +20,12 @@ fprintf('The number of slices that contain lesions is: %d\n', length(idx_z));
 [ num_pos_labels, sorted_idx ] = sort_lesion_slices( idx_z, slices );
 idx_z = sorted_idx; % sorted in descending order
 
-%num_slices = size(slices,3); % use all slices
-num_slices = 10;
+if ~isfield(params, 'num_slices')
+    %num_slices = size(slices,3); % use all slices
+    num_slices = length(idx_z); % use all slices
+else
+    num_slices = params.num_slices;
+end
 idx_z = idx_z(1:num_slices);
 fprintf('Picking the top %d slices\n', num_slices);
 fprintf('The total number of lesions in the top %d are %d\n', num_slices, sum(num_pos_labels(1:num_slices)));
