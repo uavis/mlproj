@@ -25,12 +25,19 @@ if exist ('data.mat', 'file')~=2
         [D, X_train, X_test] = second_layer(X_train, X_test,params);
     end
 else
-    addpath(genpath('.')); % need to add it here in case it bypass set_params_buildings
-    %addpath /usr/work/ml_proj/GML_AdaBoost_Matlab_Toolbox_0.3/
-    load /usr/work/ml_proj/mlprojKSVD/mlproj/data3Scales.mat
-    load /usr/work/ml_proj/mlprojKSVD/mlproj/data_train3Scales.mat
-    load /usr/work/ml_proj/mlprojKSVD/mlproj/data_test3Scales.mat
-    params
+%     addpath(genpath('.')); % need to add it here in case it bypass set_params_buildings
+%     %addpath /usr/work/ml_proj/GML_AdaBoost_Matlab_Toolbox_0.3/
+%     load ~/BuildingDetectionML/data3Scales.mat
+%     load ~/BuildingDetectionML/data_train3Scales.mat
+%     %load /usr/work/ml_proj/mlprojKSVD/mlproj/data_test3Scales.mat
+%     disp ('extracting features of the test data');
+%     basedir = '~/BuildingDetectionML/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
+%     params.testdatadir = strcat(basedir, 'TestData/');
+%     params.testgrounddir = strcat(basedir, 'TestDataGroundTruht/');
+%     params.cost= [0 1; 10 0];
+%     params.npredictors= 50;
+%     params
+%     [X_test, labels_test] = test_data_features(D, params);
 end
 
 
@@ -54,7 +61,6 @@ labels_train= [labels_train1; labels_train2];
 
 [model, prediction]=classification(labels_train, X_train, labels_test, X_test, params);
 disp(sprintf('Time Spent on training the classifier in minutes= %f', toc/60));
-%save result_6Scales.mat prediction;
 %save('model_roads.mat', 'model', '-v7.3')
 
 %Evaluation metrics
@@ -62,6 +68,7 @@ prediction= prediction(:, 2);
 [acc, precision, recall, f1, jaccard, dice] = evaluationBuilding(prediction, labels_test)
 %temp_visualize_results(prediction, labels_test);
 
+save result_smallBuildings.mat prediction;
 
 %% Visualize the dictionary
 %visualize_dictionary_modalities(D, params)
