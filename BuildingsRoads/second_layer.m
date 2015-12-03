@@ -7,7 +7,7 @@ function [new_D, new_X_train, new_X_test] = second_layer(X_train, X_test, params
     VsG = [];
     VsB = [];
     
-    [~,~,V] = svds(X_train,3);
+    [~,~,V] = svds(X_train'*X_train,3);
     X_train = X_train*V;
     clear V;
     for i=1:params.range
@@ -33,7 +33,7 @@ function [new_D, new_X_train, new_X_test] = second_layer(X_train, X_test, params
     clear VsR VsG VsB;
     clear X_train;
     % Extract Patches from the Gaussian Pyramid
-     patches = extract_patches_building(images, params);
+    patches = extract_patches_building(images, params);
 
     %% Train dictionary
     %To change the method for dictionary learning, please see inside

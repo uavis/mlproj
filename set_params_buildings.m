@@ -9,7 +9,7 @@ addpath(genpath('.'))
 
 %% Set up parameters
 % Do not change
-params.layer = 2;
+params.layer = 1;
 params.alpha = 0;
 params.D_iter = 100;
 
@@ -24,7 +24,7 @@ params.numscales = 1;
 % Receptive field size e.g. 9x9
 % Assume single modality to simplify
 
-params.rfSize= [5 5 3];
+params.rfSize= [5 5 1];
 
 % size of region?
 params.regSize = [params.upsample(1) + params.rfSize(1) - 1 params.upsample(2) + params.rfSize(2) - 1 1];
@@ -41,7 +41,7 @@ params.nfeats = 32;
 
 %--------------------------------------------------------------------------
 %Type of encoder and parametes 
-params.encoder = 'dtx'; % omp, softThresh,sc(sparse coding), dtx is just D'x
+params.encoder = 'omp'; % omp, softThresh,sc(sparse coding), dtx is just D'x
 
 % K for ompK algorithm
 params.omp_k = 4;
@@ -64,7 +64,7 @@ params.npredictors= 50;
 basedir = '/usr/data/BuildingDetectionML/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
 params.scansdir = strcat(basedir, 'training/input/');
 params.annotdir = strcat(basedir, 'training/target/');
-params.range = 2;
+params.range = 1;
 params.test_range = 1;
 %Test data directory
 params.testdatadir = strcat(basedir, 'TestData/');
