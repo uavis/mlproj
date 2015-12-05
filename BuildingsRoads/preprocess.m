@@ -10,9 +10,7 @@ function [patches_preproc, images, labels] = preprocess(params, imagedir, labeld
     d = 2;  
     sigma = [3 0.1];
     images= [];
-    VsR = [];
-    VsG = [];
-    VsB = [];
+    VsModalities = cell(params.rfSize(3), 1);
     Vs= [];
     labels = [];
     for i=1:range
@@ -34,9 +32,12 @@ function [patches_preproc, images, labels] = preprocess(params, imagedir, labeld
         Vs= [Vs; pyr]; 
         
         if(params.rfSize(3)>1)
-            VsR = [VsR; pyr(1:params.numscales, :)];
-            VsG = [VsG; pyr(params.numscales+1:params.numscales*2, :)];
-            VsB = [VsB; pyr(params.numscales*2+1:end, :)];
+            for j=1:params.rfSize(3)
+                VsModalities{j}= [VsModalities{j};  pyr(params.numscales*(i-1)+1:params.numscales*i, :)];
+            end
+%             VsR = [VsR; pyr(1:params.numscales, :)];
+%             VsG = [VsG; pyr(params.numscales+1:params.numscales*2, :)];
+%             VsB = [VsB; pyr(params.numscales*2+1:end, :)];
         end
         
         %imshow(pyr{1});
@@ -46,7 +47,10 @@ function [patches_preproc, images, labels] = preprocess(params, imagedir, labeld
     end
     
     if(params.rfSize(3)>1)
-        images = [VsR; VsG; VsB];
+        for j=1:params.rfSize(3)
+            images= [images; VsModalities{j}]
+        end
+        %images = [VsR; VsG; VsB];
     else
         images= Vs;
     end

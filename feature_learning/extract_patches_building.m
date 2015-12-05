@@ -20,16 +20,26 @@ function patches = extract_patches_building(V, params)
             patch = squeeze(patch); % remove sington dimensions
         else
             index= mod(i-1,length(V)/params.rfSize(3))+1;
-            patchR = double(V{index}); % a scaled image in the pyramid
-            patchR = squeeze(patchR); % remove sington dimensions
-
-            patchG = double(V{index+nimages*params.numscales}); % a scaled image in the pyramid
-            patchG = squeeze(patchG); % remove sington dimensions
-
-            patchB = double(V{index+nimages*params.numscales*2}); % a scaled image in the pyramid
-            patchB = squeeze(patchB); % remove sington dimensions
-
-            patch= cat(3, patchR, patchG, patchB);
+            patchArr= cell(params.rfSize(3),1);
+            for j=1:params.rfSize(3)
+                patchArr{j}= double(V{index+nimages*params.numscales*(j-1)});
+                patchArr{j} = squeeze(patchArr{j});
+                if j==1
+                    patch= patchArr{j};
+                else
+                    patch= cat(3, patch, patchArr{j});
+                end
+            end
+%             patchR = double(V{index}); % a scaled image in the pyramid
+%             patchR = squeeze(patchR); % remove sington dimensions
+% 
+%             patchG = double(V{index+nimages*params.numscales}); % a scaled image in the pyramid
+%             patchG = squeeze(patchG); % remove sington dimensions
+% 
+%             patchB = double(V{index+nimages*params.numscales*2}); % a scaled image in the pyramid
+%             patchB = squeeze(patchB); % remove sington dimensions
+% 
+%             patch= cat(3, patchR, patchG, patchB);
         end
         %figure, imshow(uint8(patch));
         [nrows, ncols, nmaps] = size(patch);
