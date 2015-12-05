@@ -22,9 +22,14 @@ for i = 1:ntv
     ant_file = sprintf('%1$s%2$02d/UNC_train_Case%2$02d_lesion.nhdr',params.annotdir,test_idx); 
     % make it logical array to work with the eval metrics functions
     A{i} = logical(load_annotation(ant_file));
-    % Only keep slices that contain lesions
-    % idx are already sorted here
-    idx{i} = pick_slice_with_lesion(A{i}, params);
+    if params.pick_slice
+        % Only keep slices that contain lesions
+        % idx are already sorted here
+        idx{i} = pick_slice_with_lesion(A{i}, params);
+    else
+        % Use all the slices for testing
+        idx{i} = 1:params.z_dim;
+    end
     A{i} = A{i}(:,:,idx{i}); % only keep slices that contain lesions
     gt = [gt; A{i}(:)];
     I_mod = []; % hold scan from multi-modalities

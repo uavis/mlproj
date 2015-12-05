@@ -50,10 +50,10 @@ function patches = extract_patches_lesion(V, params, A)
 %     end
     %%
     % Divide V into three groups
-    if 1==rfSize(3)
+    if 3==rfSize(3)
         V1 = V(1:length(V)/3);
-     V2 = V(length(V)/3+1:2*length(V)/3);
-     V3 = V(2*length(V)/3+1:end);
+        V2 = V(length(V)/3+1:2*length(V)/3);
+        V3 = V(2*length(V)/3+1:end);
     end
 
     for i=nLesionPatchs+1:npatches
