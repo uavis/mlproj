@@ -7,8 +7,8 @@ function [X, labels] = convert_lesion(L, mask, annotations, params)
 % Returns:
 %           X:  features
 %           labels: labels
-size_L = size(L{1}); % 512 x 512 x 192
-imageidx = size(L,1); %  indexes of the slices that contain annotations
+size_L = size(L{1}); % 512 x 512 x scaled features
+imageidx = 1:size(L,1); %  indexes of the slices that contain annotations
 if isfield(params, 'ratio')
     % We're undersampling the training data
     ratio = params.ratio;
@@ -43,7 +43,7 @@ if isfield(params, 'ratio')
     end
     
     m = ratio * total_lesions; % # of training samples
-    X = zeros(m, size_L(3)); % # of pixels x 192 (scaled features)
+    X = zeros(m, size_L(3)); % # of pixels x scaled features(=dict size x scales)
     labels = zeros( m, 1);
 
     last_ind = 0;
@@ -68,7 +68,7 @@ else
     k = find(mask); % idx of brain pixels
     % m = size_L(1)*size_L(2)*length(imageidx); % Keep all the pixels
     m = length(k); % # of training samples
-    X = zeros(m, size_L(3)); % # of pixels x 192 (scaled features)
+    X = zeros(m, size_L(3)); % # of pixels x scaled features
     % labels = zeros(m, 1);
     % Loop through annotations, assigning features and labels
     % index of the labels in the last iteration
@@ -79,7 +79,7 @@ else
     for i = 1:length(imageidx)
         % Loop through all slices       
         % Save the features corresponding to brain pixels
-        q = L{i}; % 512*512*192
+        q = L{i}; % 512*512*scaled features
         [r_brain, c_brain] = find(mask(:,:,i)); % row and column idx of brain pixels on each slice
         voxels = length(r_brain); % # of brain pixels on the current slice
         for j = 1:voxels

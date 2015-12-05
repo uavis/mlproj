@@ -70,7 +70,7 @@ function patches = extract_patches_lesion(V, params, A)
 
             patchMod3 = double(V3{mod(i-1,length(V3))+1}); % a scaled image in the pyramid
             patchMod3 = squeeze(patchMod3); % remove sington dimensions
-
+% DEBUG: Visualize Patches
 %             if 1 == i
 %                 subplot(3,1,1);
 %                 imshow(reshape(patchT1,[size(patchT1,1) size(patchT1,2)]),[]);
