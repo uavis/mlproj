@@ -9,7 +9,7 @@ addpath(genpath('.'))
 
 %% Set up parameters
 % Do not change
-params.layer = 1;
+params.layer = 2;
 params.alpha = 0;
 params.D_iter = 100;
 
@@ -41,7 +41,7 @@ params.nfeats = 32;
 
 %--------------------------------------------------------------------------
 %Type of encoder and parametes 
-params.encoder = 'omp'; % omp, softThresh,sc(sparse coding), dtx is just D'x
+params.encoder = 'dtx'; % omp, softThresh,sc(sparse coding), dtx is just D'x
 
 % K for ompK algorithm
 params.omp_k = 4;
@@ -64,7 +64,7 @@ params.npredictors= 50;
 basedir = '/usr/data/BuildingDetectionML/';%'/home/mennatullah/Datasets/BuildingDetectionML/';
 params.scansdir = strcat(basedir, 'training/input/');
 params.annotdir = strcat(basedir, 'training/target/');
-params.range = 1;
+params.range = 2;
 params.test_range = 1;
 %Test data directory
 params.testdatadir = strcat(basedir, 'TestData/');

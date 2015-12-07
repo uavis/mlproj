@@ -2,10 +2,12 @@ function [new_D, new_X_train, new_X_test] = second_layer(X_train, X_test, params
     disp('---------------------Starting the Second Layer-----------------');
     original_scale = params.numscales;
     params.numscales = 1;
-    
+    params.rfSize(3)=10;
     VsModalities = cell(params.rfSize(3), 1);
-    [~,~,V] = svds(cov(X_train),3);%svds(X_train'*X_train,3); %this doesn't have zero mean
+    [~,~,V] = svds(cov(X_train),params.rfSize(3));%svds(X_train'*X_train,3); %this doesn't have zero mean
+    
     X_train = X_train*V;
+    size(X_train)
     clear V;
     for i=1:params.range
         m = params.upsample;
@@ -29,7 +31,7 @@ function [new_D, new_X_train, new_X_test] = second_layer(X_train, X_test, params
     %images = [VsR; VsG; VsB];
     images=[];
     for j=1:params.rfSize(3)
-        images= [images; VsModalities{j}]
+        images= [images; VsModalities{j}];
     end
     clear VsModalities;%VsR VsG VsB;
     clear X_train;
@@ -71,10 +73,8 @@ function [new_D, new_X_train, new_X_test] = second_layer(X_train, X_test, params
     clear L;
     
     %%Test data
-    VsR = [];
-    VsG = [];
-    VsB = [];
-    [~,~,V] = svds(X_test,3);
+    VsModalities = cell(params.rfSize(3), 1);
+    [~,~,V] = svds(cov(X_test),params.rfSize(3));
     X_test = X_test*V;
     clear V;
 
@@ -86,19 +86,21 @@ function [new_D, new_X_train, new_X_test] = second_layer(X_train, X_test, params
         % V{i} is a cell array each of which is a scaled image in the pyramid
         
         if(params.rfSize(3)>1)
-            VsR = [VsR; pyr(1:params.numscales, :)];
-            VsG = [VsG; pyr(params.numscales+1:params.numscales*2, :)];
-            VsB = [VsB; pyr(params.numscales*2+1:end, :)];
+             for j=1:params.rfSize(3)
+                VsModalities{j}= [VsModalities{j};  pyr(params.numscales*(i-1)+1:params.numscales*i, :)];
+            end
         end
-        
         %imshow(pyr{1});
         %pause
         clear currentimage;
         clear pyr;
     end
     
-    images = [VsR; VsG; VsB];
-    clear VsR VsG VsB;
+    images=[];
+    for j=1:params.rfSize(3)
+        images= [images; VsModalities{j}];
+    end
+    clear VsModalities;%VsR VsG VsB;
     clear X_test;
     
     % Encoding for RGB Images

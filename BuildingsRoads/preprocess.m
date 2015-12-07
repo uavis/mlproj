@@ -48,7 +48,7 @@ function [patches_preproc, images, labels] = preprocess(params, imagedir, labeld
     
     if(params.rfSize(3)>1)
         for j=1:params.rfSize(3)
-            images= [images; VsModalities{j}]
+            images= [images; VsModalities{j}];
         end
         %images = [VsR; VsG; VsB];
     else
