@@ -19,7 +19,7 @@ function Lv = upsample_light(L, numscales, upsize)
         L(1)=[]; % remove the data for the entries that are no longer used
     end
     clear L;
-    fprintf('Upsampling finished. Start grouping images...\n');
+    %fprintf('Upsampling finished. Start grouping images...\n');
     % Then re-organize in groups of images
     Lv = cell(len_L ./ numscales, 1);
     count = 1;

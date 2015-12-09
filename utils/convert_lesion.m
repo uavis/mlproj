@@ -66,13 +66,11 @@ if isfield(params, 'ratio')
 else
     % Only pick the brain tissues ? 
     k = find(mask); % idx of brain pixels
-    % m = size_L(1)*size_L(2)*length(imageidx); % Keep all the pixels
     m = length(k); % # of training samples
     X = zeros(m, size_L(3)); % # of pixels x scaled features
-    % labels = zeros(m, 1);
+    fprintf('The total number of training samples: %d\n', m);
     % Loop through annotations, assigning features and labels
     % index of the labels in the last iteration
-    % voxels = size(L{1},1)*size(L{1},2); % 512*512
     last_ind = 0;
     % directly pick from 3D matrix mask and annotations
     labels = annotations(k);

@@ -22,13 +22,20 @@ end
 % To change the method for dictionary learning, please see inside
 % dictionary function. By default, uses omp-1.
 tic
-if (strcmp(params.dictionary_type, 'KSVD'))
-    D = dictionary_ksvd(patches, params);
-elseif (strcmp(params.dictionary_type, 'omp'))
-    D = dictionary(patches, params);
-elseif (strcmp(params.dictionary_type, 'sc'))
-    D = dictionary_sc(patches, params);
+if exist ('transferL.mat', 'file')~=2
+    if (strcmp(params.dictionary_type, 'KSVD'))
+        D = dictionary_ksvd(patches, params);
+    elseif (strcmp(params.dictionary_type, 'omp'))
+        D = dictionary(patches, params);
+    elseif (strcmp(params.dictionary_type, 'sc'))
+        D = dictionary_sc(patches, params);
+    end
+else
+    % Testing D from a different domain
+    disp('Loading D from transferL.mat');
+    load transferL.mat
 end
+clear patches
 fprintf('Time Spent on learning the dictionary in minutes= %f\n', toc/60);
 
 % Compute first module feature maps

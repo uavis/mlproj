@@ -14,7 +14,7 @@ if exist ('ms_data.mat', 'file')~=2
     % labels: 0/1 labels for each sample in X
     [D, X, labels] = run_mslesion(params);
     % Save results to .mat file
-    save ms_data.mat D X labels params
+    save ms_data.mat D X labels params -v7.3
 else
     disp('Loading from ms_data.mat');
     addpath(genpath('.'));
@@ -36,7 +36,7 @@ else
     load ms_classifier
 end
 % Gather time
-fprintf('Time Spent on classification in minutes= %f\n', toc/60);
+fprintf('\nTime Spent on classification in minutes= %f\n', toc/60);
 
 %% Getting evaluation metrics
 tic;

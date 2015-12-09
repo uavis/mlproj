@@ -3,18 +3,25 @@ function stats = eval_metric_lesion(A, preds)
 % The value of pos or neg labels
 label_p = 1;
 label_n = 0;
+gt = false(0);
+p = false(0);
+for i=1:size(A,1)
+    gt = [gt; A{i}(:)];
+    p = [p; preds{i}(:)];
+end
+
 % jaccard
-stats.jaccard = jaccard_score(A,preds);
+stats.jaccard = jaccard_score(gt,p);
 % dice
-stats.dice = dice_score(A,preds);
+stats.dice = dice_score(gt,p);
 % f1
-stats.f1 = f1_score(A(:), preds(:), label_p, label_n);
+stats.f1 = f1_score(gt, p, label_p, label_n);
 % precision
-stats.precision = precision_score(A(:), preds(:), label_p, label_n);
+stats.precision = precision_score(gt, p, label_p, label_n);
 % recall
-stats.recall = recall_score(A(:), preds(:), label_p, label_n);
+stats.recall = recall_score(gt, p, label_p, label_n);
 % accuracy
-stats.accuracy = accuracy_score(A(:), preds(:));
+stats.accuracy = accuracy_score(gt, p);
 % Print to the console
 fprintf('The accuracy is: %f\n', stats.accuracy);
 fprintf('The precision(PPV) is: %f\n', stats.precision);
