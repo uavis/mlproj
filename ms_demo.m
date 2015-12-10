@@ -26,6 +26,7 @@ tic;
 %% Train a classifier on X
 % model: the resulting model (theta's)
 % scaleparams: means and stds of X for feature standardization
+disp('Started Classification')
 if exist ('ms_classifier.mat', 'file')~=2
     [model, scaleparams] = classifier_learner(X, labels, params);
     save ms_classifier.mat model scaleparams -v7.3
@@ -37,6 +38,12 @@ else
 end
 % Gather time
 fprintf('\nTime Spent on classification in minutes= %f\n', toc/60);
+
+% Inspect classification error on the test volume
+%tic
+%[X_test, L_test] = load_test_data(D, params);
+%fprintf('Time Spent on loading test data in minutes= %f\n', toc/60);
+%inspect_classification_error(X_test{1}, L_test{1}, model);
 
 %% Getting evaluation metrics
 tic;

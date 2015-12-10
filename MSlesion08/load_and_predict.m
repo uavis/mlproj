@@ -5,6 +5,5 @@ disp 'loading test volume'
 [annotation,V,V_mask] = load_test_volume(params);
 % Segment all slices of V
 disp 'Segmenting test volume'
-%pred = segment_volume_lesion(V, V_mask, model, D, params, scaleparams);
 pred = segment_volume_lesion_light(V, V_mask, model, D, params, scaleparams);
 

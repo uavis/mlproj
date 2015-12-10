@@ -35,6 +35,10 @@ function yhat = segment_slice_lesions(im, mask, model, D, params, scaleparams)
     elseif strcmp (params.classifier,'RF')
         [~, yhat] = predict(model, reshape(X_test, size(X_test,1)*size(X_test,2), size(X_test,3)));
         yhat = reshape(yhat(:, 2),up);
+    elseif strcmp (params.classifier,'RUS')
+        X = reshape(X_test, size(X_test,1)*size(X_test,2), size(X_test,3));
+        [~, yhat] = predict(model, X); 
+        yhat = reshape(yhat(:, 2),up);
     end
 
     % Visualize
